@@ -1,0 +1,147 @@
+.wrapper .content table {
+  width: 100%;
+  border-radius: 8px;
+  border: 0.6px solid #d5d5d5;
+  background-color: white;
+  border-collapse: collapse;
+}
+.wrapper .content table thead {
+}
+.wrapper .content table thead tr {
+  border-bottom: 0.6px solid #d5d5d5;
+}
+.wrapper .content table tbody {
+}
+.wrapper .content table tbody tr:not(:last-of-type) {
+  border-bottom: 0.4px solid #979797;
+}
+.wrapper .content table tbody tr td,
+.wrapper .content table thead tr th {
+  text-align: center;
+  padding: 30px;
+}
+.btn {
+  width: 124px;
+  height: 34px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  border: 1px solid var(--blue-color);
+  background-color: var(--blue-color);
+  transition: 0.5s;
+}
+.btn:hover {
+  /* box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px,
+    rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px; */
+  background-color: var(--blue-alt-color);
+}
+
+@media (max-width: 991px) {
+}
+@media (max-width: 991px) {
+  .page aside .header {
+    justify-content: space-between;
+  }
+  .page aside {
+    position: absolute;
+    left: -100%;
+  }
+  .wrapper .content table {
+    border: none;
+    background-color: transparent;
+  }
+  .wrapper .content table thead {
+    display: none;
+  }
+
+  .wrapper .content table tbody tr {
+    display: block;
+    margin-bottom: 30px;
+  }
+
+  .wrapper .content table tbody tr td {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border: 1px solid #d5d5d5;
+  }
+
+  .wrapper .content table tbody tr td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    margin-right: 10px;
+  }
+}
+/* Product */
+.wrapper .content table td > img {
+  width: 100px;
+}
+.wrapper .content table .btns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.wrapper .content table .btns img {
+  width: 15px;
+  height: 15px;
+}
+table tbody tr img {
+  width: 56px;
+  height: 60px;
+  border-radius: 8px;
+}
+table tbody td .control-btn {
+  width: 48px;
+  height: 41px;
+  padding: 9px 16px;
+  border-radius: 20px;
+  border: 0.6px solid #d5d5d5;
+  background-color: transparent;
+  cursor: pointer;
+}
+table tbody td .control-btn.edit {
+  border-right: none;
+  border-radius: 8px 0px 0px 8px;
+}
+table tbody td .control-btn.delete {
+  border-radius: 0px 8px 8px 0px;
+}
+table tbody td .control-btn img {
+  width: 15px;
+  height: 15px;
+  transition: 0.5s;
+}
+table tbody td .control-btn i {
+  transition: 0.5s;
+}
+table tbody td .control-btn:hover img,
+table tbody td .control-btn:hover i {
+  transform: scale(1.1);
+}
+
+/* override & new things */
+.special-head {
+  margin: 20px 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.page h1 {
+  margin: 0px;
+}
+.wrapper {
+  grid-template-columns: none;
+}
+/* my edit */
+.sidebar,
+.head {
+  background-color: #f6f6f6;
+}
+.wrapper .cities-holder .box {
+  background-color: white;
+}
