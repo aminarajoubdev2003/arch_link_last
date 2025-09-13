@@ -83,8 +83,9 @@ class Order_shopController extends Controller
         try{
         $user_id = Auth::id();
         $client = Client::where('user_id', $user_id)->first();
+
         if( $client->acount != 0 ){
-        $order_items = Order_items::where('client_id' , $client_id)->where('status','notbuying')
+        $order_items = Order_items::where('client_id' , $client->id)->where('status','notbuying')
         ->where('type','no')->get();
 
         if( $order_items ){
@@ -151,30 +152,118 @@ class Order_shopController extends Controller
             return $this->apiResponse(null, false, $e->getMessage(), 500);
         }
     }
-   public function shop( ){
-    try{ $user_id = Auth::id();
+    /*public function shop(  ){
+        try{
+        $user_id = Auth::id();
         $client = Client::where('user_id', $user_id)->first();
-        if( $client->acount =! 0 )
-            {
-                $order_items = Order_items::where('client_id' , $client->id)->where('status','notbuying') ->where('type','no')->get();
-                if( $order_items ){
 
+        $today = Carbon::now()->translatedFormat('l');
+        $time = Setting::where('day' , $today)->first();
+
+        /*if( $client->acount != 0 ){
+        $order_items = Order_items::where('client_id' , $client->id)->where('status','notbuying')
+        ->where('type','no')->get();
+
+        if( $order_items ){
+        foreach( $order_items as $order_item ){
+            $order_item->status = 'buying';
+            $order_item->type = 'pending';
+
+            if($order_item->save()){
+                $product = Product::where('id',$order_item->product_id)->first();
+                $order_item->total  += $order_item->amount * $product->price;
+                $order_item->save();
+                $product->buy += $order_item->amount;
+                $product->save();
+                echo $order_item->total;
+            }
+        }
+        return $this->apiResponse('your order is inproccessing');
+
+        }else{
+            return $this->apiResponse('your card is empty');
+        }
+    }else{
+            return $this->apiResponse('your account is empty');
+        }
+
+        }catch(Exception $e){
+            return $this->apiResponse(null, false, $e->getMessage(), 500);
+        }
+        }*/
+
+
+    public function shop( ){
+    try {
+        $user_id = Auth::id();
+        $client = Client::where('user_id', $user_id)->first();
+
+        $today = Carbon::now()->translatedFormat('l');
+        $time = Setting::where('day' , $today)->first();
+
+        if( $time ){
+            $nowHour = Carbon::now('Africa/Cairo')->hour;
+            $fromHour = Carbon::createFromFormat('H:i:s', $time->from)->hour;
+            $toHour = Carbon::createFromFormat('H:i:s', $time->to)->hour;
+
+            if ( $nowHour >= $fromHour && $nowHour <= $toHour ) {
+
+                if( $client->acount != 3000 ){
+                $order_items = Order_items::where('client_id' , $client->id)->where('status','notbuying')
+                ->where('type','no')->get();
+
+                if( $order_items->isNotEmpty() ){
                 foreach( $order_items as $order_item ){
-                    $order_item->status = 'buying';
-                     $order_item->type = 'pending';
+                $order_item->status = 'buying';
+                $order_item->type   = 'pending';
+                $order_item->total += $order_item->amount * $order_item->product->price;
+                $order_item->save();
 
-                    if($order_item->save()){
-                        $product = Product::where('id',$order_item->product_id)->first();
-                        $order_item->total += $order_item->amount * $product->price; $order_item->save();
-                        $product->buy += $order_item->amount; $product->save(); echo $order_item->total; } }
-                        return $this->apiResponse('your order is inproccessing');
-                    }else{
-                        return $this->apiResponse('your card is empty'); } }
-                        else{ return $this->apiResponse('your account is empty');
-                            //echo $client->account;
-                        } }
-                        catch(Exception $e){
-                             return $this->apiResponse(null, false, $e->getMessage(), 500); }}
+                $product = Product::find($order_item->product_id);
+                if ($product) {
+                $product->buy += $order_item->amount;
+                $product->save();
+            }
+            }
+            return $this->apiResponse('your order is in processing');
+                }else{
+                    return $this->apiResponse('your card is empty');
+                }
+                }else{
+                    return $this->apiResponse('your account is empty');
+                }
+            } else {
+                $msg = 'you cannot order now review working hours';
+                return $this->apiResponse(null, false, $msg, 500);
+            }
+        }else{
+            $msg = 'you cannot order today review working days';
+            return $this->apiResponse(null, false, $msg, 500);
+        }
+
+
+    } catch (Exception $e) {
+        return $this->apiResponse(null, false, $e->getMessage(), 500);
+    }
+    }
+
+    public function all_shop( $uuid ){
+        $user_id = Auth::id();
+        $client = Client::where('user_id', $user_id)->first();
+
+         $order_shop = Order_items::where('client_id' , $client->id)->where('status','buying')->get();
+        //return $order_customize;
+        if( $order_shop->isNotEmpty()){
+
+        $order_shop = Order_shopResource::collection($order_shop);
+
+        return $this->apiResponse( $order_shop );
+
+        }else{
+        $msg = 'this designer donot have any order';
+        return $this->apiResponse( $msg );
+        }
+    }
 }
 
 

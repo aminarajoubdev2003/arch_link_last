@@ -19,7 +19,7 @@ class ReviewResource extends JsonResource
        // return parent::toArray($request);
        return[
         //'client' => ClientResource::make(Client::findOrFail($this->client)),
-        'product' => ProductResource::make(Product::findOrFail($this->product_id)),
+        //'product' => ProductResource::make(Product::findOrFail($this->product_id)),
         'rate'    => $this->rate ,
         'opinion' => $this->opinion ,
        ];

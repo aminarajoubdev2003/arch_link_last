@@ -2195,76 +2195,16 @@
                   placeholder="Type An Area"
                 />
               </div>
-              <label style="color: var(--blue-color)" for="cities-select"
-                >Status:</label
-              >
-              <select
-                id="cities-select"
-                style="
-                  padding: 5px;
-                  border: 1px solid #ccc;
-                  color: #888;
-                  background-color: white;
-                  box-shadow: none;
-                "
-                class="btn"
-                name="area"
-                onchange=""
-              >
-                <option value="All">All</option>
-                <option value="Delivered">Delivered</option>
-                <option value="Pending">Pending</option>
-                <!--<option value="Not Delivered">Not Delivered</option>-->
-              </select>
             </div>
             <div class="btn reset-btn" onclick="resetFilters()">Reset</div>
           </div>
           <div class="show-products content">
-
-            <!--<table>
-              <thead>
-                <tr>
-                  <th>Product Code</th>
-                  <th>Client Code</th>
-                  <th>Amount</th>
-                  <th>Price</th>
-                  <th>Address</th>
-                  <th>Status</th>
-                  <th>Delivery</th>
-                  <th>Total</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr scope="row">
-                  <td data-label="Product Code"></td>
-                  <td data-label="Client Code"></td>
-                  <td data-label="Amount"></td>
-                  <td data-label="Price">$</td>
-                  <td data-label="Address"></td>
-                  <td data-label="Status">Delivered</td>
-                  <td style="border-bottom: none" data-label="Delivery">
-                    Jhon Doe
-                  </td>
-                  <td
-                    style="
-                      background-color: var(--blue-alt-color);
-                      color: white;
-                      border-radius: 0px 0px 8px 8px;
-                    "
-                    data-label="Total"
-                  >
-
-                  </td>
-                </tr>
-              </tbody>
-            </table>-->
-            @foreach ($order_items as $order_item)
+            @foreach ( $order_items as $order_item )
             <table>
-
               <thead>
                 <tr>
-                  <th>Product Code</th>
                   <th>Client Code</th>
+                  <th>Product Code</th>
                   <th>Amount</th>
                   <th>Price</th>
                   <th>Address</th>
@@ -2275,19 +2215,21 @@
               </thead>
               <tbody>
                 <tr scope="row">
-                  <td data-label="Product Code">{{ $order_item->product->uuid }}</td>
                   <td data-label="Client Code">{{ $order_item->client->uuid }}</td>
+                  <td data-label="Product Code">{{ $order_item->product->uuid }}</td>
                   <td data-label="Amount">{{ $order_item->amount }}</td>
                   <td data-label="Price">{{ $order_item->product->price }}$</td>
                   <td data-label="Address">{{ $order_item->location }}</td>
-                  <td data-label="Status">{{ $order_item->type }}</td>
-                  <td data-label="Delivery">
-                    @if(strtolower($order_item->type) != 'delivered')
-                    <a href="{{ route('shop-delivery', ['id' => $order_item->id]) }}">
-                    style="color: var(--blue-color); text-decoration: underline; cursor: pointer;">
-                    Choose
-                    </>
-                    @endif
+                  <td style="border-bottom: none" data-label="Delivery">
+                    <a href="{{ route('shop-delivery',$order_item->id)}}"
+                      style="
+                        color: var(--blue-color);
+                        text-decoration: underline;
+                        cursor: pointer;
+                        color:var(--red-color)
+                      "
+                    >
+                      Choose
                     </a>
                   </td>
                   <td
@@ -2298,15 +2240,41 @@
                     "
                     data-label="Total"
                   >
-                    {{ $order_item->total }}$
+                    {{ $order_item->total}}$
                   </td>
                 </tr>
               </tbody>
             </table>
             @endforeach
-
           </div>
-
+          <!-- <div class="overlay select-delivery" style="display: none">
+            <div class="content">
+              <div class="text">
+                <form>
+                  <label for="delivery-name">Select Delivery:</label>
+                  <select name="delivery-name" id="delivery-name">
+                    <option value="jhonDoe">Jhon Doe</option>
+                    <option value="janeDoe">Jane Doe</option>
+                  </select>
+                </form>
+                <div class="btns">
+                  <button
+                    class="confirm popup-btn"
+                    style="background-color: var(--blue-alt-color)"
+                  >
+                    Select
+                  </button>
+                  <button
+                    class="cancel popup-btn"
+                    style="background-color: var(--red-color)"
+                    onclick="handlePopUp(false,0)"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div> -->
           <div class="overlay notification" style="display: none">
             <div class="content">
               <img src="../imgs/newOrder.png" alt="" />
@@ -2335,112 +2303,120 @@
       </div>
     </div>
     <script>
-  const overlay = document.querySelectorAll(".overlay");
-
-  function handlePopUp(isShow, elementID) {
-    if (isShow) overlay[elementID].style.display = "flex";
-    else overlay[elementID].style.display = "none";
-  }
-
-  // accordion
-  const accordion = document.querySelectorAll(".accordion");
-
-  function showNestedList(isShow, event, element) {
-    if (event) event.preventDefault();
-    if (element.classList.contains("closed")) {
-      element.classList.toggle("closed");
-      element.children[0].className = "arrow fas fa-angle-up";
-      element.parentElement.parentElement.children[1].style.display = "block";
-    } else {
-      element.classList.toggle("closed");
-      element.children[0].className = "arrow fas fa-angle-down";
-      element.parentElement.parentElement.children[1].style.display = "none";
-    }
-  }
-
-  showNestedList(true, null, document.querySelector(".icon.cur-active"));
-
-  // deliveryName - التحكم في ألوان الحالة فقط
-  const statusArr = document.querySelectorAll('[data-label="Status"]');
-
-  function controlStatus() {
-    statusArr.forEach((status) => {
-      if (status.innerHTML.trim().toLowerCase() === "delivered") {
-        status.style.color = "var(--green-color)";
-      } else {
-        status.style.color = "var(--red-color)";
-        // روابط Choose تولد الآن من Blade مباشرة، لذلك لا حاجة لتعديل innerHTML هنا
+      const overlay = document.querySelectorAll(".overlay");
+      function handlePopUp(isShow, elementID) {
+        if (isShow) overlay[elementID].style.display = "flex";
+        else overlay[elementID].style.display = "none";
       }
-    });
-  }
-
-  controlStatus();
-
-  // filters
-  const clients = document.querySelectorAll(".wrapper table");
-  const searchInput = document.querySelector(".wrapper .filters .search input");
-  const roleSelect = document.querySelector(".wrapper .filters select");
-  const clientsHolder = document.querySelector(".wrapper .show-products");
-  let filteredInfos = [];
-
-  function resetFilters() {
-    roleSelect.value = "All";
-    searchInput.value = "";
-    showCards();
-  }
-
-  function showCards(cards = Array.from(clients), cardsHolder = clientsHolder) {
-    cardsHolder.innerHTML = "";
-    for (let i = 0; i < cards.length; i++) {
-      cardsHolder.appendChild(cards[i]);
-    }
-  }
-
-  const filters = document.querySelector(".wrapper .filters .filters-holder");
-
-  function filterFunc(name, role) {
-    if (name === "" && role === "all") {
-      return Array.from(clients);
-    } else if (role === "all") {
-      return Array.from(clients).filter(
-        (client) =>
-          client
-            .querySelector("td[data-label='Delivery']")
-            .innerText.toLowerCase()
-            .includes(name)
+      // accordion
+      const accordion = document.querySelectorAll(".accordion");
+      function showNestedList(isShow, event, element) {
+        if (event) event.preventDefault();
+        if (element.classList.contains("closed")) {
+          element.classList.toggle("closed");
+          element.children[0].className = "arrow 	fas fa-angle-up";
+          element.parentElement.parentElement.children[1].style.display =
+            "block";
+        } else {
+          element.classList.toggle("closed");
+          element.children[0].className = "arrow 	fas fa-angle-down";
+          element.parentElement.parentElement.children[1].style.display =
+            "none";
+        }
+      }
+      showNestedList(true, null, document.querySelector(".icon.cur-active"));
+      // deliveryName
+      const statusArr = document.querySelectorAll('[data-label="Status"]');
+      const deliveryName = document.querySelectorAll('[data-label="Delivery"]');
+      const selectedDelivery = document.querySelector(
+        ".select-delivery select"
       );
-    } else if (name === "") {
-      return Array.from(clients).filter(
-        (client) =>
-          client
-            .querySelector("td[data-label='Status']")
-            .innerText.toLowerCase() === role
-      );
-    }
-    return Array.from(clients)
-      .filter(
-        (client) =>
-          client
-            .querySelector("td[data-label='Delivery']")
-            .innerText.toLowerCase()
-            .includes(name)
-      )
-      .filter(
-        (client) =>
-          client
-            .querySelector("td[data-label='Status']")
-            .innerText.toLowerCase() === role
-      );
-  }
 
-  filters.addEventListener("input", () => {
-    filteredInfos = filterFunc(
-      searchInput.value.toLowerCase(),
-      roleSelect.value.toLowerCase()
-    );
-    showCards(filteredInfos, clientsHolder);
-  });
-</script>
+      // set The DeliveryName
+      /* let orderInfos, orderID, delivery;
+      if (window.location.search) {
+        orderInfos = window.location.search.split("&");
+        orderID = +orderInfos[0].split("=")[1];
+        delivery = orderInfos[1].split("=")[1];
+        statusArr[orderID].innerHTML = "Pending";
+        controlStatus();
+      } */
 
+
+      // filters
+      const clients = document.querySelectorAll(".wrapper table");
+      const searchInput = document.querySelector(
+        ".wrapper .filters .search input"
+      );
+      const roleSelect = document.querySelector(".wrapper .filters select");
+      const clientsHolder = document.querySelector(".wrapper .show-products");
+      let filteredNames = [];
+      let filteredRoles = [];
+      function resetFilters() {
+        roleSelect.value = "All";
+        searchInput.value = "";
+        showCards();
+      }
+      function showCards(
+        cards = Array.from(clients),
+        cardsHolder = clientsHolder
+      ) {
+        cardsHolder.innerHTML = "";
+        for (let i = 0; i < cards.length; i++) {
+          cardsHolder.appendChild(cards[i]);
+        }
+      }
+      let filteredInfos = [];
+      const filters = document.querySelector(
+        ".wrapper .filters .filters-holder"
+      );
+      function filterFunc(name, role) {
+        if (name == "" && role == "all") {
+          return Array.from(clients);
+        } else if (role == "all") {
+          return Array.from(clients).filter(
+            (client) =>
+              client
+                .querySelector("td[data-label='Delivery']")
+                .innerHTML.toLowerCase()
+                .includes(name) &&
+              client
+                .querySelector("td[data-label='Delivery']")
+                .innerHTML.charAt(0) != "<"
+          );
+        } else if (name == "") {
+          return Array.from(clients).filter(
+            (client) =>
+              client
+                .querySelector("td[data-label='Status']")
+                .innerHTML.toLowerCase() == role
+          );
+        }
+        return Array.from(clients)
+          .filter(
+            (client) =>
+              client
+                .querySelector("td[data-label='Delivery']")
+                .innerHTML.toLowerCase()
+                .includes(name) &&
+              client
+                .querySelector("td[data-label='Delivery']")
+                .innerHTML.charAt(0) != "<"
+          )
+          .filter(
+            (client) =>
+              client
+                .querySelector("td[data-label='Status']")
+                .innerHTML.toLowerCase() == role
+          );
+      }
+      filters.addEventListener("input", (e) => {
+        filteredInfos = filterFunc(
+          searchInput.value.toLowerCase(),
+          roleSelect.value.toLowerCase()
+        );
+        showCards(filteredInfos, clientsHolder);
+      });
+    </script>
   </body>
 </html>

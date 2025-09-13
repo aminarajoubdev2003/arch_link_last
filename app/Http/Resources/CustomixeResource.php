@@ -18,7 +18,7 @@ class CustomixeResource extends JsonResource
         return[
             'uuid' => $this->uuid,
             'image' => $this->image,
-            'height' => $this->height,
+            'height' => $this->high,
             'width' => $this->width,
             'length' => $this->length,
             'amount' => $this->amount,

@@ -15,6 +15,8 @@ use App\Http\Resources\ReviewResource;
 use App\Models\Order_items;
 use Illuminate\Support\Facades\Validator;
 
+use function PHPUnit\Framework\returnSelf;
+
 class ReviewController extends Controller
 {
     use GeneralTrait;
@@ -42,7 +44,8 @@ class ReviewController extends Controller
 
         $order_product = Order_items::where('client_id' , $client_id)->where('product_id' , $product_id)
         ->where('status', 'buying')->get();
-        if( $order_product ){
+        //return $order_product;
+        if( $order_product->isNotEmpty() ){
         $review = Review::create([
             'uuid' => Str::uuid(),
             'client_id' => $client_id,

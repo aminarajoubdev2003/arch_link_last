@@ -2034,7 +2034,7 @@
           <div class="logo-holder">
             <img
               style="width: 30px; height: 30px"
-              src="{{ asset('../imgs/logo.png')}}"
+              src="../imgs/logo.png"
               alt=""
             />
             <h3 class="p-relative txt-c mt-0">ArchiLink</h3>
@@ -2157,7 +2157,7 @@
               <i class="fa-regular fa-bell fa-lg"></i>
             </span>
             <a href="profile.html">
-              <img src="{{ asset('../imgs/avatar.png')}}" alt="" />
+              <img src="../imgs/avatar.png" alt="" />
             </a>
           </div>
         </div>
@@ -2171,7 +2171,7 @@
           </ul>
         </div>
         <div class="wrapper" style="height: 100%">
-          <form method="post" action="{{ route('update-product',['id' => $product->id]) }}class="control-products content" style="height: 100%">
+          <form class="control-products content" style="height: 100%">
             <div class="holder general" style="height: 100%">
               <div class="prev-form general">
                 <div class="title">
@@ -2244,7 +2244,7 @@ soft sofa</textarea
                   />
                   <img
                     style="width: 300px; height: 300px"
-                    src="{{ asset('../imgs/upload-icon.png')}}"
+                    src="../imgs/course-03.jpg"
                     alt="product image"
                   />
                 </div>

@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
-    <link rel="stylesheet" href="../css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -2164,12 +2164,25 @@
             </div>
           </div>
           <div class="boxes">
-            {{-- start --}}
+            @foreach ( $first_images as $first_image )
             <div class="box">
-              <img src="../imgs/course-01.jpg" alt="" />
+              <!--<img src="../imgs/course-01.jpg" alt="" />-->
+              <img src="{{ Storage::url(str_replace('public/', '', $first_image)) }}" alt="" />
             </div>
-            {{-- end --}}
-          </div>
+            @endforeach
+            <!--<div class="box">
+              <img src="../imgs/course-02.jpg" alt="" />
+            </div>
+            <div class="box">
+              <img src="../imgs/course-03.jpg" alt="" />
+            </div>
+            <div class="box">
+              <img src="../imgs/course-04.jpg" alt="" />
+            </div>
+            <div class="box">
+              <img src="../imgs/course-05.jpg" alt="" />
+            </div>
+          </div>-->
         </div>
       </div>
     </div>

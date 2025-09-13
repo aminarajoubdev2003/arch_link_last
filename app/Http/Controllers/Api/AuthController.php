@@ -14,7 +14,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\ClientResource;
+use App\Http\Resources\Order_shopResource;
 use App\Http\Resources\ProfileResource;
+use App\Models\Order_items;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 //secret123
@@ -24,11 +26,12 @@ class AuthController extends Controller
 
     public function register(Request $request){
     $validatedData = Validator::make($request->all(), [
-        'name' => 'required|string|min:3|max:20|regex:/^[A-Za-z]+$/',
+        'name' => 'required|string|min:3|max:20|regex:/^[A-Za-z\s]+$/',
         'password' => 'required|min:8|confirmed|regex:/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/',
         'email' => 'required|email|unique:users,email',
        'phone_number' => 'required|digits:10|unique:clients,phone_number|regex:/^(09)[0-9]{8}$/',
-       'user_type' => 'required|string|in:customer,designer,admin,company',
+       'user_type' => 'required|string|in:customer,designer',
+        'city_uuid' => 'required|string|exists:cities,uuid',
         'area_uuid' => 'required|string|exists:areas,uuid',
     ], [
         'email.unique' => 'Email already exists',
@@ -54,12 +57,13 @@ class AuthController extends Controller
             'user_id' => $user->id,
             'phone_number' => $request->phone_number,
             'area_id' => $area_id,
-            'user_type' => $request->user_type
+            'user_type' => $request->user_type,
+            'image'=> 'clients/profile/photo_2025-09-10_11-50-19.jpg'
         ]);
         }else{
             return $this->requiredField('Error in register');
         }
-         
+
         $data['client'] = new ClientResource($client);
         $data['token'] = $client->createToken('MyApp')->plainTextToken;
 
@@ -154,7 +158,7 @@ class AuthController extends Controller
 
         $user_id = Auth::id();
         $client = Client::where('user_id', $user_id)->first();
-        $url = $this->upload_file( $request->image , 'clients/profile/');
+        $url = $this->upload_file( $request->image , 'clients/profile');
 
         if( $url ){
             $client->image = $url;
@@ -171,33 +175,54 @@ class AuthController extends Controller
     }
     }
 
-    public function edit_area( Request $request){
-        try{
-        $validatedData = Validator::make($request->all(),[
-            'password' => 'required|min:8|confirmed|regex:/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/',
+    public function edit_area(Request $request)
+{
+    try {
+        $validatedData = Validator::make($request->all(), [
+            'password' => 'required|min:8|regex:/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/',
             'email' => 'required|email|exists:users,email',
             'area_uuid' => 'required|string|exists:areas,uuid',
+            'city_uuid' => 'required|string|exists:cities,uuid',
         ]);
 
-        if($validatedData->fails()) {
-        return $this->apiResponse(null, false, $validatedData->messages(), 401);
+        if ($validatedData->fails()) {
+            return $this->apiResponse(null, false, $validatedData->messages(), 401);
         }
 
-        if(!Auth::attempt(['password' => $request->password,'email' => $request->email ])){
+        $user = User::where('email', $request->email)->first();
+
+        if (! $user || ! Hash::check($request->password, $user->password)) {
             return $this->unAuthorizeResponse();
         }
 
         $area_id = Area::where('uuid', $request->area_uuid)->value('id');
-        $user_id = Auth::id();
-        $client = Client::where('user_id', $user_id)->first();
+
+        $client = Client::where('user_id', $user->id)->first();
         $client->area_id = $area_id;
         $client->save();
 
-        $msg = 'the are is changed';
-        return $this->apiResponse( $msg );
+        $msg = 'the area is changed successfully';
+        return $this->apiResponse($msg);
 
-    }catch( Exception $e){
-        return $this->apiResponse(null,false,$e->getMessage(),500);
+    } catch (Exception $e) {
+        return $this->apiResponse(null, false, $e->getMessage(), 500);
     }
 }
+    public function orders_card( $uuid ){
+        try{
+
+        $client_id = Client::where('uuid' , $uuid)->value('id');
+        $order_items = Order_items::where('client_id' , $client_id)->where('status' , 'buying')->get();
+
+        if( $order_items ){
+            $order_items = Order_shopResource::collection($order_items);
+        }
+        else{
+            $msg = 'you donot have shop order until now';
+            return $this->apiResponse( $msg );
+        }
+        }catch( Exception $e){
+        return $this->apiResponse(null,false,$e->getMessage(),500);
+        }
+    }
 }

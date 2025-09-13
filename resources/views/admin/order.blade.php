@@ -1934,22 +1934,7 @@
         <!-- End Head -->
         <div class="special-head">
           <h1 class="p-relative">Manage Orders</h1>
-          <select
-            style="
-              padding: 5px;
-              border: 1px solid #ccc;
-              color: #888;
-              background-color: white;
-              box-shadow: none;
-              cursor: pointer;
-            "
-            name="Status"
-            id=""
-          >
-            <option value="all">All</option>
-            <option value="accepted">Accepted</option>
-            <option value="rejected">Rejected</option>
-          </select>
+
         </div>
         <div class="wrapper d-grid gap-20">
           <div class="show-products content">

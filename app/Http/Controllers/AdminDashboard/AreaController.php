@@ -102,8 +102,8 @@ class AreaController extends Controller
     }
 
     public function deleted_area( ){
-        $deletedRecords = Setting::onlyTrashed()->get();
-        return view('admin.workTimesTrash', compact('deletedRecords'));
+        $deletedRecords = Area::onlyTrashed()->get();
+        return view('admin.areaTrash', compact('deletedRecords'));
     }
 
     public function restore( $id ){

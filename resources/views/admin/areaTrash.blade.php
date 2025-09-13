@@ -1935,6 +1935,7 @@
                 <a  href="{{ route('restore-area', $deletedRecord->id) }}" style="display: inline-block" class="control-btn edit">
                   <img
                     title="restore"
+                    style="    width: 20px;"
                     src="{{ asset('imgs/restoreIcon.png') }}"
                     alt="restore"
                   />

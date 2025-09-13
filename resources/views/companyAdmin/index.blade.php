@@ -1276,7 +1276,6 @@
         background-color: floralwhite;
         border-radius: 0px;
         color: var(--blue-color);
-        z-index: 2;
       }
       @media (max-width: 767px) {
         .courses-page {
@@ -1914,6 +1913,11 @@
       /* clickAnimation  */
       .images {
         position: relative;
+
+        img{
+            width:100%;
+            height: 300px;
+        }
       }
       .click-animation {
         position: absolute;
@@ -2039,16 +2043,16 @@
                 </div>
               </div>
               <div class="accordion-list" style="padding-left: 10px">
-                <a
+                <!--<a
                   class="d-flex align-center fs-14 c-black rad-6 p-10"
                   href="productTrash.html"
                 >
                   <i class="fas fa-box-open"></i>
                   <span>Product Trash</span>
-                </a>
+                </a>-->
                 <a
                   class="d-flex align-center fs-14 c-black rad-6 p-10"
-                  href="{{ route('delivery-deleted')}}"
+                  href="{{ route('deleted_delivery')}}"
                 >
                   <i class="fas fa-dumpster"></i>
                   <span>Delivery Trash</span>
@@ -2096,7 +2100,7 @@
         <!-- End Head -->
         <div class="special-head" style="margin-bottom: 20px">
           <h1 class="p-relative">Manage Products</h1>
-          <a href="addProduct.html" class="btn">+ Add Product</a>
+          <a href="{{ route('add-product')}}" class="btn">+ Add Product</a>
         </div>
         <div class="wrapper d-grid gap-20">
           <div class="filters" style="justify-content: space-between">
@@ -2116,7 +2120,7 @@
               </div>
               <div class="category">
                 <label style="color: var(--blue-color)" for="role-select"
-                  >Category&style</label
+                  >Category&type</label
                 >
                 <select
                   id="role-select"
@@ -2131,10 +2135,7 @@
                   name="role"
                 >
                   <option value="all">All</option>
-                  <optgroup label="Bedroom">
-                    <option value="chairs">Chairs</option>
-                    <option value="bed">Bed</option>
-                  </optgroup>
+
                   <optgroup label="livingroom">
                     <option value="sofa">Sofa</option>
                     <option value="table">Table</option>
@@ -2206,8 +2207,8 @@
                   id="design-type-filter"
                 >
                   <option value="all">All</option>
-                  <option value="exterior">Exterior</option>
-                  <option value="interior">Interior</option>
+                  <option value="external">external</option>
+                  <option value="internal">internal</option>
                 </select>
               </div>
               <div class="color">
@@ -2271,89 +2272,376 @@
             </div>
           </div>
           <div class="courses-page d-grid m-20 gap-20">
-  {{-- start --}}
-   @foreach ($products as $product)
-  <div class="course bg-white rad-6 p-relative" data-id="{{ $product->id }}">
-    <span class="sale">{{ $product->sale }}</span>
-    <div class="images">
-      <a href="productsGallery.html"></a>
-      <img class="cover" src="{{ Storage::url(str_replace('public/', '', $product->images[0])) }}" alt="" />
-      <div class="click-animation">
-        <div class="loader"></div>
-        <div class="slider"></div>
-      </div>
-    </div>
-    <div class="p-20">
-      <h3 class="m-0">{{ $product->type}}</h3>
-      <p class="description c-grey mt-15 fs-14">{{ $product->desc}}</p>
-      <div class="products-settings" style="display: flex; justify-content: space-between; align-items: center; color: var(--blue-color); font-size: 13px; margin: 0px 0px 5px;">
-        <span style="font-size: inherit">{{ $product->time_to_make}}</span>
-        <div class="btns">
-          <a href="{{ route('edit-product', $product->id)}}" class="control-btn edit">
-            <img src="{{ asset('../imgs/pencil-write.png')}}" alt="edit" />
-          </a>
-          <button
-            class="control-btn delete"
-            onclick="handleSettingsPopUp(true, 0, {{ $product->id }})"
-          >
-            <img src="{{ asset('../imgs/bin.png')}}" alt="del" />
-          </button>
+            <!-- start amina -->
+            @foreach ( $products as $product )
+            <div class="course bg-white rad-6 p-relative">
+              <span class="sale">{{ $product->sale }}</span>
+              <div class="images">
+                <a href="{{ route('gallary-product')}}"></a>
+                <!--<img class="cover" src="" alt="" />-->
+                <img src="{{ Storage::url(str_replace('public/', '', $product->images[0])) }}" alt="" />
+                <div class="click-animation">
+                  <div class="loader"></div>
+                  <div class="slider"></div>
+                </div>
+              </div>
+              <div class="p-20">
+                <h3 class="m-0">{{ $product->type }}</h3>
+                <p class="description c-grey mt-15 fs-14">
+                  {{ $product->desc }}
+                </p>
+                <div
+                  class="products-settings"
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    color: var(--blue-color);
+                    font-size: 13px;
+                    margin: 0px 0px 5px;
+                  "
+                >
+                  <span style="font-size: inherit">{{ $product->time_to_make }}</span>
+                  <div class="btns">
+                    <a href="{{ route('edit-product', $product->id)}}" class="control-btn edit">
+                      <img src="{{ asset('../imgs/pencil-write.png')}}" alt="edit" />
+                    </a>
+                    <!--<button
+                      class="control-btn delete"
+                      onclick="handleSettingsPopUp(true,0)"
+                    >
+                      <img src="../imgs/bin.png" alt="del" />
+                    </button>-->
+                  </div>
+                </div>
+              </div>
+              <div class="info p-15 p-relative between-flex">
+                <span
+                  class="title bg-blue c-white btn-shape"
+                  onclick="handlePopUp(this,true)"
+                  >Product Info</span
+                >
+                <!--<span class="c-grey">
+                  <i class="fa-regular fas fa-tags"></i>
+                  4 items
+                </span>-->
+                <span class="c-grey">
+                  <i class="fa-solid fa-dollar-sign"></i>
+                  {{ $product->price }}
+                </span>
+              </div>
+              <div class="overlay more-infos" style="display: none">
+                <div class="back" onclick="handlePopUp(this,false)"></div>
+                <div class="content">
+                  <ul class="size">
+                    <li>
+                      <h4>width</h4>
+                      <p>{{ $product->width }}</p>
+                    </li>
+                    <li>
+                      <h4>height</h4>
+                      <p>{{ $product->height }}</p>
+                    </li>
+                    <li>
+                      <h4>length</h4>
+                      <p>{{ $product->length }}</p>
+                    </li>
+                  </ul>
+                  <ul class="detailed-infos">
+                    <li>
+                      <h4>Category</h4>
+                      <p>{{ $product->category }}</p>
+                    </li>
+                    <li>
+                      <h4>Type</h4>
+                      <p>{{ $product->type}}</p>
+                    </li>
+                    <li>
+                      <h4>Style</h4>
+                      <p>{{ $product->style }}</p>
+                    </li>
+                    <li>
+                      <h4>Material</h4>
+                      <p>{{ $product->material }}</p>
+                    </li>
+                    <li>
+                      <h4>Design Type</h4>
+                      <p>{{ $product->design_type }}</p>
+                    </li>
+                    <li>
+                      <h4>Color</h4>
+                      <div class="colors">
+                        <p class="color" style="background-color: {{ $product->color }}"></p>
+                        <!--<p
+                          class="color"
+                          style="background-color: powderblue"
+                        ></p>-->
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            @endforeach
+            <!-- end amina -->
+          </div>
+
+          <div class="overlays">
+            <div class="overlay" style="display: none">
+              <div class="content">
+                <p>Are You Sure You Want To Delete It?</p>
+                <div class="btns">
+                  <button class="confirm popup-btn">Yes</button>
+                  <button
+                    class="cancel popup-btn"
+                    onclick="handleSettingsPopUp(false,0)"
+                  >
+                    No
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="overlay notification" style="display: none">
+              <div class="content">
+                <img src="../imgs/newOrder.png" alt="" />
+                <div class="text">
+                  <p>You Have 3 new Orders!!</p>
+                  <div class="btns">
+                    <a
+                      href="order.html"
+                      class="confirm popup-btn"
+                      style="background-color: var(--blue-alt-color)"
+                    >
+                      View
+                    </a>
+                    <button
+                      class="cancel popup-btn"
+                      style="background-color: var(--red-color)"
+                      onclick="handleSettingsPopUp(false,1)"
+                    >
+                      Dismiss
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="info p-15 p-relative between-flex" id="">
-      <span class="title bg-blue c-white btn-shape"
-        data-width="{{ $product->width }}"
-        data-height="{{ $product->height }}"
-        data-length="{{ $product->length }}"
-        data-category="{{ $product->category }}"
-        data-type="{{ $product->type }}"
-        data-style="{{ $product->style }}"
-        data-material="{{ $product->material }}"
-        data-design-type="{{ $product->site }}"
-        data-colors='@json($product->colors ?? [$product->color])'
-        onclick="showProductInfoFromElement(this)">
-        Product Info
-      </span>
+    <script>
+      function handlePopUp(element, isShow) {
+        const courseCard = element.closest(".course");
+        const overlay = courseCard.querySelector(".overlay");
+        overlay.style.display = isShow ? "flex" : "none";
+      }
 
-      <span class="c-grey">price</span>
-      <span class="c-grey">
-        <i class="fa-solid fa-dollar-sign"></i>
-        {{ $product->price }}
-      </span>
-    </div>
-  </div>
-@endforeach
+      const settingsOverlay = document.querySelectorAll(".overlays .overlay");
+      function handleSettingsPopUp(isShow, elementID) {
+        if (isShow) settingsOverlay[elementID].style.display = "flex";
+        else settingsOverlay[elementID].style.display = "none";
+      }
+      // accordion
+      const accordion = document.querySelectorAll(".accordion");
+      function showNestedList(isShow, event, element) {
+        event.preventDefault();
+        if (element.classList.contains("closed")) {
+          element.classList.toggle("closed");
+          element.children[0].className = "arrow 	fas fa-angle-up";
+          element.parentElement.parentElement.children[1].style.display =
+            "block";
+        } else {
+          element.classList.toggle("closed");
+          element.children[0].className = "arrow 	fas fa-angle-down";
+          element.parentElement.parentElement.children[1].style.display =
+            "none";
+        }
+      }
+      // range value
+      const priceHolder = document.querySelector(".filters-holder .price");
+      priceHolder.lastElementChild.innerHTML = `${priceHolder.children[1].value}$`;
+      //show Product infos
+      function showProductInfo(infos) {
+        handlePopUp(true, 2);
+        const {
+          width,
+          height,
+          length,
+          category,
+          type,
+          style,
+          material,
+          designType,
+          colors,
+        } = infos;
+        const holder = document.querySelector(".overlay .content");
+        console.log(holder);
+        let colorsElements = ``;
+        colors.forEach((color) => {
+          colorsElements += `<p class="color" style="background-color: ${color}"></p>`;
+        });
+        holder.innerHTML = "";
+        holder.innerHTML = `
+               <ul class="size">
+                 <li>
+                   <h4>width</h4>
+                   <p>${width}</p>
+                 </li>
+                 <li>
+                   <h4>height</h4>
+                   <p>${height}</p>
+                 </li>
+                 <li>
+                   <h4>length</h4>
+                   <p>${length}</p>
+                 </li>
+               </ul>
+               <ul class="detailed-infos">
+                 <li>
+                   <h4>Category</h4>
+                   <p>${category}</p>
+                 </li>
+                 <li>
+                   <h4>Type</h4>
+                   <p>${type}</p>
+                 </li>
+                 <li>
+                   <h4>Style</h4>
+                   <p>${style}</p>
+                 </li>
+                 <li>
+                   <h4>Material</h4>
+                   <p>${material}</p>
+                 </li>
+                 <li>
+                   <h4>Design Type</h4>
+                   <p>${designType}</p>
+                 </li>
+                 <li>
+                   <h4>Colors</h4>
+                   <div class="colors">
+                     ${colorsElements}
+                   </div>
+                 </li>
+               </ul>`;
+      }
+      // filters
+      document.addEventListener("DOMContentLoaded", () => {
+        const searchInput = document.getElementById("name-search");
+        const categorySelect = document.getElementById("role-select");
+        const styleSelect = document.getElementById("style-filter");
+        const materialSelect = document.getElementById("material-filter");
+        const designTypeSelect = document.getElementById("design-type-filter");
+        const colorSelect = document.getElementById("color-filter");
+        const priceInput = document.querySelector('.price input[type="range"]');
+        const priceValue = document.querySelector(".price-filter-value");
 
-<div class="overlays">
-  <div class="overlay" style="display: none">
-    <div class="content">
-      <p>Are You Sure You Want To Delete It?</p>
-      <div class="btns">
-        <button class="confirm popup-btn" id="confirm-delete">Yes</button>
-        <button class="cancel popup-btn" onclick="handleSettingsPopUp(false,0)">No</button>
-      </div>
-    </div>
-  </div>
-</div>
+        const courses = document.querySelectorAll(".course");
 
-<script>
-  const settingsOverlay = document.querySelectorAll(".overlays .overlay");
-  let productToDeleteId = null;
+        function filterCourses() {
+          const searchText = searchInput.value.toLowerCase();
+          const selectedCategory = categorySelect.value;
+          const selectedStyle = styleSelect.value;
+          const selectedMaterial = materialSelect.value;
+          const selectedDesignType = designTypeSelect.value;
+          const selectedColor = colorSelect.value;
+          const maxPrice = parseInt(priceInput.value, 10);
 
-  function handleSettingsPopUp(isShow, elementID, productId = null) {
-    if (isShow) {
-      settingsOverlay[elementID].style.display = "flex";
-      productToDeleteId = productId; // تخزين الـ ID
-    } else {
-      settingsOverlay[elementID].style.display = "none";
-      productToDeleteId = null;
-    }
-  }
+          courses.forEach((course) => {
+            const title = course.querySelector("h3").textContent.toLowerCase();
+            const price = parseInt(
+              course
+                .querySelector(".fa-dollar-sign")
+                .nextSibling.textContent.trim(),
+              10
+            );
 
-  document.getElementById("confirm-delete").addEventListener("click", function() {
-    if (productToDeleteId) {
-      window.location.href = `/product/delete/${productToDeleteId}`;
-    }
-  });
-</script>
+            const category = course
+              .querySelector(".detailed-infos li:nth-child(1) p")
+              .textContent.toLowerCase();
+            const type = course
+              .querySelector(".detailed-infos li:nth-child(2) p")
+              .textContent.toLowerCase();
+            const style = course
+              .querySelector(".detailed-infos li:nth-child(3) p")
+              .textContent.toLowerCase();
+            const material = course
+              .querySelector(".detailed-infos li:nth-child(4) p")
+              .textContent.toLowerCase();
+            const designType = course
+              .querySelector(".detailed-infos li:nth-child(5) p")
+              .textContent.toLowerCase();
+            const colors = Array.from(
+              course.querySelectorAll(".detailed-infos li:nth-child(6) .color")
+            ).map((c) => c.style.backgroundColor);
+
+            let isVisible = true;
+
+            if (searchText && !title.includes(searchText)) {
+              isVisible = false;
+            }
+
+            if (selectedCategory !== "all" && selectedCategory !== type) {
+              isVisible = false;
+            }
+
+            if (selectedStyle !== "all" && selectedStyle !== style) {
+              isVisible = false;
+            }
+
+            if (selectedMaterial !== "all" && selectedMaterial !== material) {
+              isVisible = false;
+            }
+
+            if (
+              selectedDesignType !== "all" &&
+              selectedDesignType !== designType
+            ) {
+              isVisible = false;
+            }
+
+            if (selectedColor !== "all" && !colors.includes(selectedColor)) {
+              isVisible = false;
+            }
+
+            if (price > maxPrice) {
+              isVisible = false;
+            }
+
+            course.style.display = isVisible ? "" : "none";
+          });
+        }
+
+        // Show price value live
+        priceInput.addEventListener("input", () => {
+          priceValue.textContent = `$${priceInput.value}`;
+          filterCourses();
+        });
+
+        // Attach event listeners
+        searchInput.addEventListener("input", filterCourses);
+        categorySelect.addEventListener("change", filterCourses);
+        styleSelect.addEventListener("change", filterCourses);
+        materialSelect.addEventListener("change", filterCourses);
+        designTypeSelect.addEventListener("change", filterCourses);
+        colorSelect.addEventListener("change", filterCourses);
+
+        // Reset button logic
+        window.resetFilters = function () {
+          searchInput.value = "";
+          categorySelect.value = "all";
+          styleSelect.value = "all";
+          materialSelect.value = "all";
+          designTypeSelect.value = "all";
+          colorSelect.value = "all";
+          priceInput.value = priceInput.max;
+          priceValue.textContent = `$${priceInput.max}`;
+          filterCourses();
+        };
+
+        // Initialize
+        resetFilters();
+      });
+    </script>
+  </body>
+</html>

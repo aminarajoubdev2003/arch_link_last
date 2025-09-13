@@ -3,17 +3,25 @@
 namespace App\Http\Controllers;
 
 use Exception;
+use App\Models\City;
 use App\Models\User;
+use App\Models\Client;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
+
+    public function signin(){
+        return view('signin');
+    }
+
     public function login(Request $request)
-{
+    {//echo 'iiui';
     try {
-        // التحقق من المدخلات
+
         $validatedData = Validator::make($request->all(), [
             'email'    => 'required|email',
             'password' => 'required|min:8',
@@ -21,36 +29,32 @@ class AuthController extends Controller
 
         if ($validatedData->fails()) {
            $errors = $validatedData->errors();
-           return view('admin.str_erroe',compact('errors'));
+           return view('admin.error',compact('errors'));
         }
 
-        // البحث عن المستخدم
         $user = User::where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
-            /*return response()->json([
-                'success' => false,
-                'message' => 'البريد الإلكتروني أو كلمة المرور غير صحيحة'
-            ], 401);*/
             $errors = 'email or password is incorrect';
-           return view('admin.str_erroe',compact('errors'));
+            return view('admin.str_erroe',compact('errors'));
+
+        }else{
+            $client = Client::where('user_id' , $user->id)->first();
+
+            if( $client->user_type == 'admin'){
+                $cities = City::all();
+                return view('admin.index',compact('cities'));
+            }
+            elseif( $client->user_type == 'company'){
+                $products = Product::all();
+                return view ('companyAdmin.index',compact('products'));
+            }else{
+                $errors = 'you donot have permission';
+                return view('admin.str_erroe',compact('errors'));
+            }
         }
-
-        // إنشاء Token جديد
-        $token = $user->createToken('web_login')->plainTextToken;
-
-        return response()->json([
-            'success' => true,
-            'message' => 'تم تسجيل الدخول بنجاح',
-            'user'    => $user,
-            'token'   => $token
-        ], 200);
-
     } catch (Exception $e) {
-        return response()->json([
-            'success' => false,
-            'message' => $e->getMessage()
-        ], 500);
+        return view('signin');
     }
 }
 

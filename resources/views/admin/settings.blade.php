@@ -1917,7 +1917,7 @@
         </div>
         <!-- End Head -->
         <div class="special-head">
-          <h1 class="p-relative">Manage WorkTimes</h1>
+          <h1 style="color:black" class="p-relative">Manage WorkTimes</h1>
           <a href="{{ route('add-worktime')}}" class="btn">+ Add WorkTime</a>
         </div>
         <div class="wrapper d-grid gap-20">

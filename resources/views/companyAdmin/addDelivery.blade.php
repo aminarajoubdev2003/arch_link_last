@@ -1610,7 +1610,8 @@
         font-size: 14px;
         letter-spacing: -0.06px;
       }
-      .control-products form input:not(.btn) {
+      .control-products form input:not(.btn) ,
+      .control-products form select {
         padding: 13px 19px;
         border-radius: 6px;
         border: 1px solid #d8d8d8;
@@ -2131,30 +2132,29 @@
           <div class="control-products content">
             <div class="holder">
               <form method="POST" action="{{ route('store-delivery') }}">
-    @csrf
-    <div class="name">
-      <label for="name">Name</label>
-      <input type="text" id="name" name="name" placeholder="Name" />
-    </div>
-    <div class="email">
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" placeholder="Email" />
-    </div>
-    <div class="phone">
-      <label for="phone">Phone Number</label>
-      <input type="tel" id="phone" name="phone" placeholder="Phone Number" />
-    </div>
-    <div class="name">
-      <label for="area_id">Area Name</label>
-      <select name="area_id" id="area_id">
-        @foreach ( $areas as $area )
-        <option value="{{ $area->id }}">{{ $area->area_name }} - {{ optional($area->city)->city_name }}</option>
-        @endforeach
-      </select>
-    </div>
-    <input class="btn" type="submit" value="Save" />
-</form>
-
+                @csrf
+                <div class="name">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" placeholder="Name" />
+                </div>
+                <div class="email">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Email" />
+                </div>
+                <div class="phone">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" placeholder="Phone Number" />
+                </div>
+                <div class="name">
+                <label for="area_id">Area Name</label>
+                <select name="area_id" id="area_id">
+                     @foreach ( $areas as $area )
+                    <option value="{{ $area->id }}">{{ $area->area_name }} - {{ optional($area->city)->city_name }}</option>
+                    @endforeach
+                </select>
+                </div>
+                <input class="btn" type="submit" value="Save" />
+                </form>
             </div>
           </div>
           <div class="overlay notification" style="display: none">

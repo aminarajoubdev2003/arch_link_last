@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class Product_MinResource extends JsonResource
@@ -19,9 +20,10 @@ class Product_MinResource extends JsonResource
             'uuid' => $this->uuid,
             'title' => $this->title,
             'price' => $this->price . '$',
-            'image' => is_array($this->images) && count($this->images) > 0
-            ? $this->images[0]
+            'image' => !empty($this->images) && is_array($this->images) && isset($this->images[0])
+            ? Storage::url($this->images[0])
             : null,
+
         ];
     }
 }

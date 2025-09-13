@@ -20,7 +20,7 @@ class CommentController extends Controller
     $validate = Validator::make($request->all(), [
         'name' => 'required|string|min:3|max:20|regex:/^[A-Za-z\s]+$/',
         'email' => 'required|email|unique:users,email',
-        'comment' => 'required|string|min:8|max:500|regex:/^[A-Za-z0-9\s\-\.,!?"\'()]+$/',
+        'comment' => 'required|string|min:8|max:255|regex:/^[A-Za-z0-9\s\-\.,!?"\'()]+$/',
         "blog_uuid" => "required|string|exists:blogs,uuid"
     ]);
 
@@ -43,5 +43,15 @@ class CommentController extends Controller
     } catch (Exception $e) {
         return $this->apiResponse(null, false, $e->getMessage(), 500);
     }
+    }
+
+    public function index(){
+        try{
+        $comments = Comment::all();
+        $comment = CommentResource::collection( $comments);
+        return $this->apiResponse( $comments );
+        }catch (Exception $e) {
+        return $this->apiResponse(null, false, $e->getMessage(), 500);
+        }
     }
 }

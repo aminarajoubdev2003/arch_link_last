@@ -1784,6 +1784,7 @@
   </head>
   <body>
     <div class="page d-flex">
+        {{-- start --}}
       <div class="sidebar p-20 p-relative">
         <div class="logo-holder">
           <img style="width: 30px; height: 30px" src="{{ asset('imgs/logo.png') }}" alt="" />
@@ -1853,7 +1854,7 @@
             <div class="accordion-list" style="padding-left: 10px">
               <a
                 class="d-flex align-center fs-14 c-black rad-6 p-10"
-                href="{{ route('areas-deleted')}}"
+                href="{{ route('worktimes-deleted')}}"
               >
                 <i class="far fa-clock fa-fw"></i>
                 <span>WorkTimes Trash</span>
@@ -1895,6 +1896,7 @@
 </button>
 
       </div>
+      {{-- end --}}
       <div class="content w-full">
         <!-- Start Head -->
         <div class="head p-15 between-flex">

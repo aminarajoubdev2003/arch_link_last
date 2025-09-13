@@ -2171,106 +2171,143 @@
           </ul>
         </div>
         <div class="wrapper" style="height: 100%">
-        <form action="{{ route('store-product') }}" method="POST" enctype="multipart/form-data" class="control-products content" style="height: 100%">
-    @csrf
-    <div class="holder general" style="height: 100%">
-        <div class="prev-form general">
-            <div class="title">
-                <label for="title">Title</label>
-                <input type="text" id="title" name="title" placeholder="ex: sweet sofa" />
+          <form action="{{ route('store-product')}}" method="POST"  enctype="multipart/form-data" class="control-products content" style="height: 100%">
+            @csrf
+            <div class="holder general" style="height: 100%">
+              <div class="prev-form general">
+                <div class="title">
+                  <label for="title">Title</label>
+                  <input name="title" type="text" id="title" placeholder="ex: sweet sofa" />
+                </div>
+                <div class="price">
+                  <label for="price">Price</label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="1"
+                    max="1000"
+                    id="price"
+                    placeholder="ex: 200$"
+                    name="price"
+                  />
+                </div>
+                <div class="time-to-make">
+                  <label for="time_to_make">Time to Make</label>
+                  <input
+                    type="text"
+                    id="time_to_make"
+                    placeholder="ex: 5 days"
+                    name="time_to_make"
+                  />
+                </div>
+                <div class="description">
+                  <label for="description">Description</label>
+                  <textarea
+                    placeholder="Descripe your product"
+                    id="description"
+                    name = "description"
+                  ></textarea>
+                </div>
+                <div class="btns">
+                  <button class="btn" onclick="showNext(1,event)">Next</button>
+                </div>
+              </div>
+              <div
+                class="product-image"
+                style="height: 60.5%; margin-top: 22px"
+              >
+                <div class="upload">
+                  <input name = "product_images[]" class="upload-input" type="file" multiple />
+                  <img src="../imgs/upload-icon.png" alt="product image" />
+                </div>
+              </div>
             </div>
-            <div class="price">
-                <label for="price">Price</label>
-                <input type="number" min="0" step="1" max="1000" id="price" name="price" placeholder="ex: 200$" />
+            <div class="holder size" style="display: none">
+              <div class="prev-form size">
+                <div class="width">
+                  <label for="width">Width</label>
+                  <input  name = "width" type="text" id="width" placeholder="ex: 15m" />
+                </div>
+                <div class="height">
+                  <label for="height">Height</label>
+                  <input name = "height" type="text" id="height" placeholder="ex: 15m" />
+                </div>
+                <div class="length">
+                  <label for="length">Length</label>
+                  <input name = "length" type="text" id="length" placeholder="ex: 15m" />
+                </div>
+                <button class="btn" onclick="showNext(2,event)">Next</button>
+              </div>
             </div>
-            <div class="site">
-                  <label for="site">site</label>
-                  <select id="site" name='site'>
+            <div class="holder info" style="display: none">
+              <div
+                class="prev-form info"
+                style="
+                  width: 100%;
+                  display: flex;
+                  flex-wrap: wrap;
+                  justify-content: center;
+                  align-items: center;
+                  gap: 20px;
+                "
+              >
+                <div class="category">
+                  <label for="category">Category</label>
+                  <input
+                    type="text"
+                    id="category"
+                    placeholder="ex: Livingroom"
+                    name = "category"
+                  />
+                </div>
+                <div class="type">
+                  <label for="type">Type</label>
+                  <input  name="type" type="text" id="type" placeholder="ex: Sofa" />
+                </div>
+                <div class="style">
+                  <label for="style">Style</label>
+                  <input  name="style" type="text" id="style" placeholder="ex: Modern" />
+                </div>
+                <div class="material">
+                  <label for="material">Material</label>
+                  <input name = "material" type="text" id="material" placeholder="ex: wood" />
+                </div>
+                <!--<div class="design-type">
+                  <label for="design-type">Design Type</label>
+                  <input
+                    type="text"
+                    id="design-type"
+                    placeholder="ex: Livingroom"
+                    name="design-type"
+                  />
+                </div>-->
+                <div class="design-type">
+                  <label for="design_type">Design Type</label>
+                  <select id="design_type" name='design_type'>
                     <option value="internal">internal</option>
                     <option value="external">external</option>
                   </select>
                 </div>
-            <div class="time-to-make">
-                <label for="time-to-make">Time to Make</label>
-                <input type="text" id="time-to-make" name="time_to_make" placeholder="ex: 5 days" />
-            </div>
-            <div class="description">
-                <label for="description">Description</label>
-                <textarea id="description" name="description" placeholder="Describe your product"></textarea>
-            </div>
-            <div class="btns">
-                <button class="btn" onclick="showNext(1,event)">Next</button>
-            </div>
-        </div>
-        <div class="product-image" style="height: 60.5%; margin-top: 22px">
-            <div class="upload">
-                <input class="upload-input" type="file" name="product_images[]" multiple />
-                <img src="{{ asset('../imgs/upload-icon.png')}}" alt="product image" />
-            </div>
-        </div>
-    </div>
-
-    <div class="holder size" style="display: none">
-        <div class="prev-form size">
-            <div class="width">
-                <label for="width">Width</label>
-                <input type="text" id="width" name="width" placeholder="ex: 15cm" />
-            </div>
-            <div class="height">
-                <label for="height">Height</label>
-                <input type="text" id="height" name="height" placeholder="ex: 15cm" />
-            </div>
-            <div class="length">
-                <label for="length">Length</label>
-                <input type="text" id="length" name="length" placeholder="ex: 15cm" />
-            </div>
-            <button class="btn" onclick="showNext(2,event)">Next</button>
-        </div>
-    </div>
-
-    <div class="holder info" style="display: none">
-        <div class="prev-form info" style="width: 100%; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 20px;">
-            <div class="category">
-                <label for="category">Category</label>
-                <input type="text" id="category" name="category" placeholder="ex: Livingroom" />
-            </div>
-            <div class="type">
-                <label for="type">Type</label>
-                <input type="text" id="type" name="type" placeholder="ex: Sofa" />
-            </div>
-            <div class="style">
-                <label for="style">Style</label>
-                <input type="text" id="style" name="style" placeholder="ex: Modern" />
-            </div>
-            <div class="material">
-                <label for="material">Material</label>
-                <input type="text" id="material" name="material" placeholder="ex: wood" />
-            </div>
-            <div class="design-type">
-                <label for="design-type">Design Type</label>
-                <input type="text" id="design-type" name="design_type" placeholder="ex: Livingroom" />
-            </div>
-            <div class="sale">
-                <label for="sale">Sale</label>
-                <input type="text" id="sale" name="sale" placeholder="ex: 50%" />
-            </div>
-            <div class="block-file">
+                <div class="sale">
+                  <label for="sale">Sale</label>
+                  <input  name = "sale" type="text" id="sale" placeholder="ex: 50%" />
+                </div>
+                <div class="block-file">
                 <label for="file">Block File</label>
                 <div class="input">
                     <input style="width: 100%; background: white" type="file" id="file" name="block_file" placeholder="Upload Block" />
                 </div>
-            </div>
-            <div class="colors">
-                <label for="colors">Colors</label>
-                <div class="inputs">
-                    <input type="color" name="color" />
                 </div>
+                <div class="colors">
+                  <label for="colors">Colors</label>
+                  <div class="inputs">
+                    <input type="color" name="color" />
+                  </div>
+                </div>
+                <input class="btn" type="submit" value="Save" />
+              </div>
             </div>
-            <input class="btn" type="submit" value="Save" />
-        </div>
-    </div>
-</form>
-
+          </form>
           <div class="overlay notification" style="display: none">
             <div class="content">
               <img src="../imgs/newOrder.png" alt="" />

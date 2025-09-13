@@ -13,24 +13,26 @@ use App\Http\Controllers\AdminCompany\Order_customizeController;
 use App\Http\Controllers\AdminDashboard\ClientController;
 use App\Http\Controllers\AdminDashboard\SettingController;
 use App\Http\Controllers\AdminCompany\Order_shopController;
-use App\Http\Controllers\AdminDashboard\AuthController;
+use App\Http\Controllers\AuthController;
 use App\Models\Order_customize;
 
 Route::get('/', function () {
-   //return view('signin');
-//$cities = City::all();
-//return view('admin.index',compact('cities'));
-$products = Product::all();
-return view ('companyAdmin.index',compact('products'));
-});
-
-Route::get('/signin', function () {
+    return view('welcome');
    //return view('signin');
 //$cities = City::all();
 //return view('admin.index',compact('cities'));
 //$products = Product::all();
 //return view ('companyAdmin.index',compact('products'));
+//dd($products);
 });
+
+/*Route::get('/signin', function () {
+   //return view('signin');
+//$cities = City::all();
+//return view('admin.index',compact('cities'));
+//$products = Product::all();
+//return view ('companyAdmin.index',compact('products'));
+});*/
 
 Route::get('/adminprofile', function () {
     return view('admin.profile');
@@ -40,6 +42,12 @@ Route::get('/logout', function () {
     return view('signin');
 })->name('logout');
 
+
+Route::controller(AuthController::class)->group(function (){
+
+    Route::get('/signin','signin')->name('signin');
+   Route::post('/login','login')->name('login');
+});
 
 //City
 Route::controller(CityController::class)->group(function (){
@@ -92,7 +100,7 @@ Route::controller(OrderController::class)->group(function (){
 
     Route::get('/orders/list','index')->name('list-orders');
     Route::post('/orders/accept','accept')->name('accept-orders');
-    //Route::get('/clients','index')->name('list-clients');
+    Route::delete('/orders/delete',  'delete')->name('delete-order');
     //Route::get('/client/edit/{id}','edit')->name('edit-client');
     //Route::post('/client/update/{id}','update')->name('update-client');
 });
@@ -104,8 +112,8 @@ Route::controller(DeliveryController::class)->group(function (){
     Route::post('/store/delivery','store')->name('store-delivery');
     Route::get('/delivery/edit/{id}','edit')->name('edit-delivery');
     Route::post('/delivery/update/{id}','update')->name('update-delivery');
-    Route::get('/delivery/deleted','deleted_delivery')->name('delivery-deleted');
-    Route::get('/delivery/delete/{id}','delete')->name('delete-delivery');
+    Route::delete('/deliveries/{id}',  'delete')->name('delete-delivery');
+    Route::get('/delivery/delete','deleted_delivery')->name('deleted_delivery');
 });
 
 Route::controller(ProductController::class)->group(function (){
@@ -124,6 +132,7 @@ Route::controller(Order_shopController::class)->group(function (){
 
     Route::get('/shop/products','index')->name('shop-products');
     Route::get('/choose/{id}', 'choose')->name('shop-delivery');
+    Route::post('/set/{$order_item_id}', 'set')->name('set-delivery');
 
 });
 

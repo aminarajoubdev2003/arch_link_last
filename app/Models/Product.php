@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Order_items;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -12,7 +13,7 @@ class Product extends Model
     protected $fillable = [
         'uuid',
         'title',
-        'site',
+        'design_type',
         'category',
         'type',
         'style',
@@ -43,4 +44,5 @@ class Product extends Model
     }
 
     
+
 }

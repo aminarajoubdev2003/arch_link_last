@@ -20,7 +20,7 @@ class CommentResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'comment' => $this->comment,
-            'blog' => BlogResource::make(Blog::findOrFail($this->blog_id)),
+            //'blog' => BlogResource::make(Blog::findOrFail($this->blog_id)),
         ];
     }
 }

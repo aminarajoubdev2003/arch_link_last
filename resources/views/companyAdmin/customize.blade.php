@@ -2138,22 +2138,7 @@
         <!-- End Head -->
         <div class="special-head">
           <h1 class="p-relative">Manage Orders</h1>
-          <select
-            style="
-              padding: 5px;
-              border: 1px solid #ccc;
-              color: #888;
-              background-color: white;
-              box-shadow: none;
-              cursor: pointer;
-            "
-            name="Status"
-            id=""
-          >
-            <option value="all">All</option>
-            <option value="finished">Finished</option>
-            <option value="not">Not Finished</option>
-          </select>
+
         </div>
         <div class="wrapper d-grid gap-20">
           <div class="show-products content">
@@ -2166,17 +2151,16 @@
                   <th>Width</th>
                   <th>Height</th>
                   <th>Length</th>
-                  <th>Client</th>
-                  <th>Finished</th>
+                  <th>Client Code</th>
+                  <th>Choose Delivery</th>
                 </tr>
               </thead>
               <tbody>
-                {{-- start --}}
                 @foreach ( $orders as $order )
                 <tr scope="row">
-                  <td data-label="Image" onclick="handlePopUp(true,2)">
+                  <td data-label="Image" onclick="handlePopUp(true,0)">
                     <div class="image">
-                      <img class="cover" src="{{ Storage::url(str_replace('public/', '', $order->image)) }}" alt="" />
+                      <img src="{{ Storage::url(str_replace('public/', '', $order->image)) }}" alt="" />
                       <div class="click-animation">
                         <div class="loader"></div>
                         <div class="slider"></div>
@@ -2184,34 +2168,32 @@
                     </div>
                   </td>
                   <td data-label="Color">
-                    <span
-                      style="background-color: {{ $order->color }}"
-                      class="color"
-                    ></span>
+                    <span style="background-color: {{ $order->color }}" class="color"></span>
                   </td>
                   <td data-label="Amount">{{ $order->amount }}</td>
                   <td data-label="Width">{{ $order->width }}</td>
-                  <td data-label="Height">{{ $order->high}}</td>
-                  <td data-label="Length">{{ $order->length}}</td>
-                  <td data-label="Client">{{ $order->client->uuid}}</td>
-                  <td data-label="Status">
-                    <button
-              style="width:100%"
+                  <td data-label="Height">{{ $order->high }}</td>
+                  <td data-label="Length">{{ $order->length }}</td>
+                  <td data-label="Client">{{ $order->client->uuid }}</td>
+                  <!--<td data-label="Status">
+                    <input type="checkbox" name="status" />
+                  </td>-->
+                  <td data-label="Choose Delivery">
+                    <a
+                    href="{{ route('shop-delivery' , $order->id)}}"
               class="btn"
-              onclick="sendFinishedOrders()"
             >
-              OK
-            </button>
+              Choose
+            </a>
                   </td>
                   <div class="overlay full-screen-img" style="display: none">
-                    <div class="backdrop" onclick="handlePopUp(false,2)"></div>
+                    <div class="backdrop" onclick="handlePopUp(false,0)"></div>
                     <div class="content">
                       <img src="../imgs/course-01.jpg" alt="" />
                     </div>
                   </div>
+                  @endforeach
                 </tr>
-                @endforeach
-                {{-- end --}}
               </tbody>
             </table>
 

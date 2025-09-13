@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use App\Models\Area;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProfileResource extends JsonResource
@@ -23,7 +24,7 @@ class ProfileResource extends JsonResource
         'area' => AreaResource::make(Area::findOrFail($this->area_id)),
         'user_type' => $this->user_type,
         'acount' => $this->acount,
-        'image' => $this->image
+        'image' => Storage::url($this->image)
         ];
     }
 }

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -6,13 +5,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
-    <link rel="stylesheet" href="{{ asset('css/all.min.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;500&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;500&display=swap"
+      rel="stylesheet"
+    />
     <style>
-      * { margin: 0px; padding: 0px; box-sizing: border-box; }
-      body { font-family: "Open Sans", sans-serif; margin: 0; }
+      * {
+        margin: 0px;
+        padding: 0px;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Open Sans", sans-serif;
+        margin: 0;
+      }
       :root {
         --blue-color: #1d322fb2;
         --blue-alt-color: #385854;
@@ -34,6 +43,7 @@
         background-repeat: no-repeat;
       }
       .sign {
+        /* padding: 25px 32px; */
         padding: 40px 32px;
         width: 500px;
         min-height: 435px;
@@ -43,11 +53,23 @@
         flex-direction: column;
         justify-content: space-between;
       }
-      .sign .title { text-align: center; }
-      .sign .title h1 { font-size: 32px; margin-bottom: 8px; }
-      .sign .title p { font-size: 18px; }
-      .sign form label { margin-bottom: 4px; }
-      .sign form > div { display: flex; flex-direction: column; }
+      .sign .title {
+        text-align: center;
+      }
+      .sign .title h1 {
+        font-size: 32px;
+        margin-bottom: 8px;
+      }
+      .sign .title p {
+        font-size: 18px;
+      }
+      .sign form label {
+        margin-bottom: 4px;
+      }
+      .sign form > div {
+        display: flex;
+        flex-direction: column;
+      }
       .sign form input {
         padding: 13px 17px;
         height: 45px;
@@ -67,8 +89,13 @@
         border: none;
         background-color: var(--blue-alt-color);
       }
-      .sign.signin { position: relative; }
-      .sign.signin form > div { margin-bottom: 25px; }
+      /* sign in only */
+      .sign.signin {
+        position: relative;
+      }
+      .sign.signin form > div {
+        margin-bottom: 25px;
+      }
       .sign.signin form .auth-footer {
         padding: 0px 32px;
         position: absolute;
@@ -81,32 +108,78 @@
         width: calc(100% - 64px);
       }
       @media (max-width: 768px) {
-        .auth { padding: 20px; }
-        .sign.signin { height: 500px; }
+        .auth {
+          padding: 20px;
+        }
+        .sign.signin {
+          height: 500px;
+        }
       }
       @media (max-width: 550px) {
-        .sign { width: 100%; }
-        .sign.signup form { display: flex; flex-direction: column; }
+        .sign {
+          width: 100%;
+        }
+        .sign.signup form {
+          display: flex;
+          flex-direction: column;
+        }
       }
-      .text { text-align: center; }
-      .text h1 { margin-bottom: 5px; font-size: 36px; }
-      .text p { color: #888; }
+      /*  */
+      .text {
+        text-align: center;
+        h1 {
+          margin-bottom: 5px;
+          font-size: 36px;
+        }
+        p {
+          color: #888;
+        }
+      }
+
+      .custom-error {
+    font-size: 18px;      /* حجم الخط */
+    color: black;         /* لون النص */
+    font-weight: 600;     /* خط عريض قليلاً */
+    text-align: center;   /* في الوسط */
+     margin: 15px 0;       /* مسافة علوية وسفلية */
+}
+.custom-error p {
+  margin: 5px 0;        /* مسافة بسيطة بين كل خطأ */
+}
+
     </style>
   </head>
   <body>
     <div class="auth">
       <div class="sign signin">
         <div class="title">
-          <img style="width: 150px" src="{{ asset('imgs/error1.png') }}" alt="" />
+          <!--  <h1>
+            SignIn To
+            <img
+              style="width: 45px; vertical-align: text-top"
+              src="../imgs/logo.png"
+              alt=""
+            /><span>ArchiLink</span>
+          </h1>
+          <p>Please enter your email and password to continue</p> -->
+          <img style="width: 150px" src="{{ asset('../imgs/error1.png')}}" alt="" />
         </div>
         <div class="text">
-          @if ($errors->any())
-            @foreach ($errors->all() as $error)
-        <p>{{ $error }}</p>
-            @endforeach
-          @endif
+          <!--<h1>Something Went Wrong!!</h1>-->
+            @if ($errors->any())
+        <div class="alert alert-danger custom-error">
+        @foreach ($errors->all() as $error)
+            <p>{{ $error }}</p>
+        @endforeach
+    </div>
+    @endif
+
+
+          <p>
+            An unexpected error occurred. Please try again in a few moments.
+          </p>
         </div>
-        <button class="btn">Retry</button>
+       <!-- <button class="btn">Retry</button>-->
       </div>
     </div>
   </body>

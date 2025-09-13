@@ -1584,7 +1584,6 @@
           font-weight: bold;
           margin-right: 10px;
         }
-
       }
       /* Product */
       .wrapper .content table td > img {
@@ -1920,7 +1919,7 @@
           <div class="logo-holder">
             <img
               style="width: 30px; height: 30px"
-              src="{{ asset('../imgs/logo.png')}}"
+              src="../imgs/logo.png"
               alt=""
             />
             <h3 class="p-relative txt-c mt-0">ArchiLink</h3>
@@ -2043,14 +2042,14 @@
               <i class="fa-regular fa-bell fa-lg"></i>
             </span>
             <a href="profile.html">
-              <img src="{{ asset('../imgs/logo.png')}}" alt="" />
+              <img src="../imgs/avatar.png" alt="" />
             </a>
           </div>
         </div>
         <!-- End Head -->
         <div class="special-head">
           <h1 class="p-relative">Manage Delivery</h1>
-          <a href= {{ route('add-delivery')}} class="btn">+ Add Delivery</a>
+          <a href="{{ route('add-delivery')}}" class="btn">+ Add Delivery</a>
         </div>
         <div class="wrapper d-grid gap-20">
           <div class="filters" style="justify-content: space-between">
@@ -2083,15 +2082,10 @@
                 onchange=""
               >
                 <option value="All">All</option>
-                @foreach ($areas as $area)
-                <option value="{{ $area->area_name }}">
-                    {{ $area->area_name }} - {{ optional($area->city)->city_name }}
-                </option>
-
-                <!--<option value="Damascus">Damascus</option>
+                <option value="Homs">Homs</option>
+                <option value="Damascus">Damascus</option>
                 <option value="Hama">Hama</option>
-                <option value="Aleppo">Aleppo</option>-->
-                @endforeach
+                <option value="Aleppo">Aleppo</option>
               </select>
               <label style="color: var(--blue-color)" for="status-select"
                 >Status:</label
@@ -2122,165 +2116,214 @@
                   <th>Name</th>
                   <th>Email</th>
                   <th>Phone Number</th>
-                  <th>Area</th>
+                  <th>Work Place</th>
                   <th>Status</th>
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody>
-  <tr scope="row">
-    @foreach ($deliveries as $delivery )
-      <td data-label="Name">{{ $delivery->name }}</td>
-      <td data-label="Email">{{ $delivery->email }}</td>
-      <td data-label="Phone Number">{{ $delivery->phone_number }}</td>
-      <td data-label="Area">
-        {{ optional($delivery->area)->area_name }} -
-        {{ optional($delivery->area->city)->city_name }}
-      </td>
-
-      <td data-label="Status">
-        {{ $delivery->busy == 0 ? 'free' : 'busy' }}
-      </td>
-      <td data-label="Action" style="display: flex">
-        <a href="{{ route('edit-delivery' , $delivery->id)}}" class="control-btn edit">
-          <img src="{{ asset('../imgs/pencil-write.png')}}" alt="edit" />
-        </a>
-        <div class="btns">
-          <button
-            class="control-btn delete"
-            onclick="handlePopUp(true,0,{{ $delivery->id }})"
-          >
-            <img src="{{ asset('../imgs/bin.png')}}" alt="del" />
-          </button>
+                @foreach ( $deliveries as $delivery )
+                <tr scope="row">
+                  <td data-label="Name">{{ $delivery->name }}</td>
+                  <td data-label="Email">{{ $delivery->email }}</td>
+                  <td data-label="Phone Number">{{ $delivery->phone_number }}</td>
+                  <td data-label="Area">{{ $delivery->area->city->city_name }} - {{ $delivery->area->area_name }}</td>
+                  <td data-label="Status">{{ $delivery->busy }}
+                </td>
+                  <td data-label="Action">
+                    <div class="btns">
+                      <a href="{{ route('edit-delivery' ,$delivery->id )}}" class="control-btn edit">
+                        <img src="{{ asset('../imgs/pencil-write.png')}}" alt="edit" />
+                      </a>
+                      <button
+                        class="control-btn delete"
+                        onclick="handlePopUp(true, {{ $delivery->id }})"
+                      >
+                        <img src="{{ asset('../imgs/bin.png')}}" alt="del" />
+                      </button>
+                    </div>
+                  </td>
+                  @endforeach
+                <!--</tr>
+                <tr scope="row">
+                  <td data-label="Name">Jhon Doe2</td>
+                  <td data-label="Email">JhonDoe2@gmail.com</td>
+                  <td data-label="Phone Number">0993811280</td>
+                  <td data-label="Area">Damascus</td>
+                  <td data-label="Status">Free</td>
+                  <td data-label="Action">
+                    <div class="btns">
+                      <a href="editDelivery.html" class="control-btn edit">
+                        <img src="../imgs/pencil-write.png" alt="edit" />
+                      </a>
+                      <button
+                        class="control-btn delete"
+                        onclick="handlePopUp(true,0)"
+                      >
+                        <img src="../imgs/bin.png" alt="del" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <tr scope="row">
+                  <td data-label="Name">Jhon Doe3</td>
+                  <td data-label="Email">JhonDoe3@gmail.com</td>
+                  <td data-label="Phone Number">0993811280</td>
+                  <td data-label="Area">Hama</td>
+                  <td data-label="Status">Busy</td>
+                  <td data-label="Action">
+                    <div class="btns">
+                      <a href="editDelivery.html" class="control-btn edit">
+                        <img src="../imgs/pencil-write.png" alt="edit" />
+                      </a>
+                      <button
+                        class="control-btn delete"
+                        onclick="handlePopUp(true,0)"
+                      >
+                        <img src="../imgs/bin.png" alt="del" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <tr scope="row">
+                  <td data-label="Name">Jhon Doe4</td>
+                  <td data-label="Email">JhonDoe4@gmail.com</td>
+                  <td data-label="Phone Number">0993811280</td>
+                  <td data-label="Area">Aleppo</td>
+                  <td data-label="Status">Busy</td>
+                  <td data-label="Action">
+                    <div class="btns">
+                      <a href="editDelivery.html" class="control-btn edit">
+                        <img src="../imgs/pencil-write.png" alt="edit" />
+                      </a>
+                      <button
+                        class="control-btn delete"
+                        onclick="handlePopUp(true,0)"
+                      >
+                        <img src="../imgs/bin.png" alt="del" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>-->
+              </tbody>
+            </table>
+          </div>
+          <div class="overlay" style="display: none">
+            <div class="content">
+              <p>Are You Sure You Want To Delete It?</p>
+              <div class="btns">
+                <!--<button class="confirm popup-btn">Yes</button>-->
+                <form id="deleteForm" action="" method="POST" style="display:inline;">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="confirm popup-btn">Yes</button>
+                </form>
+                <button class="cancel popup-btn" onclick="handlePopUp(false,0)">
+                  No
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="overlay notification" style="display: none">
+            <div class="content">
+              <img src="../imgs/newOrder.png" alt="" />
+              <div class="text">
+                <p>You Have 3 new Orders!!</p>
+                <div class="btns">
+                  <a
+                    href="order.html"
+                    class="confirm popup-btn"
+                    style="background-color: var(--blue-alt-color)"
+                  >
+                    View
+                  </a>
+                  <button
+                    class="cancel popup-btn"
+                    style="background-color: var(--red-color)"
+                    onclick="handlePopUp(false,1)"
+                  >
+                    Dismiss
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </td>
-    </tr>
-    @endforeach
-  </tbody>
-</table>
-</div>
-
-<div class="overlay" style="display: none">
-  <div class="content">
-    <p>Are You Sure You Want To Delete It?</p>
-    <div class="btns">
-      <button class="confirm popup-btn">Yes</button>
-      <button class="cancel popup-btn" onclick="handlePopUp(false,0)">
-        No
-      </button>
-    </div>
-  </div>
-</div>
-
-<div class="overlay notification" style="display: none">
-  <div class="content">
-    <img src="../imgs/newOrder.png" alt="" />
-    <div class="text">
-      <p>You Have 3 new Orders!!</p>
-      <div class="btns">
-        <a
-          href="order.html"
-          class="confirm popup-btn"
-          style="background-color: var(--blue-alt-color)"
-        >
-          View
-        </a>
-        <button
-          class="cancel popup-btn"
-          style="background-color: var(--red-color)"
-          onclick="handlePopUp(false,1)"
-        >
-          Dismiss
-        </button>
       </div>
     </div>
-  </div>
-</div>
-</div>
-</div>
-</div>
-
-<script>
-  const overlay = document.querySelectorAll(".overlay");
-  let deliveryToDeleteId = null;
-
-  function handlePopUp(isShow, elementID, deliveryId = null) {
-    if (isShow) {
-      overlay[elementID].style.display = "flex";
-      deliveryToDeleteId = deliveryId;
-    } else {
-      overlay[elementID].style.display = "none";
-      deliveryToDeleteId = null;
-    }
+    <script>
+      const overlay = document.querySelectorAll(".overlay");
+function handlePopUp(isShow, deliveryId) {
+  if (isShow) {
+    overlay[0].style.display = "flex";
+    document.getElementById("deleteForm").action = "/deliveries/" + deliveryId;
+  } else {
+    overlay[0].style.display = "none";
   }
+}
 
-  // زر Yes في نافذة الحذف
-  document.querySelector(".confirm.popup-btn").addEventListener("click", function () {
-    if (deliveryToDeleteId) {
-      const url = "{{ route('delete-delivery', ':id') }}".replace(':id', deliveryToDeleteId);
-      window.location.href = url;
-    }
-  });
-
-  // accordion
-  const accordion = document.querySelectorAll(".accordion");
-  function showNestedList(isShow, event, element) {
-    event.preventDefault();
-    if (element.classList.contains("closed")) {
-      element.classList.toggle("closed");
-      element.children[0].className = "arrow 	fas fa-angle-up";
-      element.parentElement.parentElement.children[1].style.display = "block";
-    } else {
-      element.classList.toggle("closed");
-      element.children[0].className = "arrow 	fas fa-angle-down";
-      element.parentElement.parentElement.children[1].style.display = "none";
-    }
-  }
-
-  // filters
-  const nameInput = document.getElementById("area-search");
-  const areaSelect = document.getElementById("cities-select");
-  const statusSelect = document.getElementById("status-select");
-  const rows = document.querySelectorAll("tbody tr");
-
-  function getCellValue(row, label) {
-    const cell = Array.from(row.children).find(
-      (td) => td.getAttribute("data-label") === label
-    );
-    return cell ? cell.textContent.trim().toLowerCase() : "";
-  }
-
-  function filterTable() {
-    const nameFilter = nameInput.value.trim().toLowerCase();
-    const areaFilter = areaSelect.value.toLowerCase();
-    const statusFilter = statusSelect.value.toLowerCase();
-
-    rows.forEach((row) => {
-      const name = getCellValue(row, "Name");
-      const area = getCellValue(row, "Area");
-      const status = getCellValue(row, "Status");
-
-      const matchName = name.includes(nameFilter);
-      const matchArea = areaFilter === "all" || area === areaFilter;
-      const matchStatus = statusFilter === "all" || status === statusFilter;
-
-      if (matchName && matchArea && matchStatus) {
-        row.style.display = "";
-      } else {
-        row.style.display = "none";
+      // accordion
+      const accordion = document.querySelectorAll(".accordion");
+      function showNestedList(isShow, event, element) {
+        event.preventDefault();
+        if (element.classList.contains("closed")) {
+          element.classList.toggle("closed");
+          element.children[0].className = "arrow 	fas fa-angle-up";
+          element.parentElement.parentElement.children[1].style.display =
+            "block";
+        } else {
+          element.classList.toggle("closed");
+          element.children[0].className = "arrow 	fas fa-angle-down";
+          element.parentElement.parentElement.children[1].style.display =
+            "none";
+        }
       }
-    });
-  }
+      // filters
+      const nameInput = document.getElementById("area-search");
+      const areaSelect = document.getElementById("cities-select");
+      const statusSelect = document.getElementById("status-select");
+      const rows = document.querySelectorAll("tbody tr");
 
-  function resetFilters() {
-    nameInput.value = "";
-    areaSelect.value = "All";
-    statusSelect.value = "All";
-    filterTable();
-  }
+      // دالة تجيب قيمة الخلية حسب data-label
+      function getCellValue(row, label) {
+        const cell = Array.from(row.children).find(
+          (td) => td.getAttribute("data-label") === label
+        );
+        return cell ? cell.textContent.trim().toLowerCase() : "";
+      }
 
-  nameInput.addEventListener("input", filterTable);
-  areaSelect.addEventListener("change", filterTable);
-  statusSelect.addEventListener("change", filterTable);
-</script>
+      function filterTable() {
+        const nameFilter = nameInput.value.trim().toLowerCase();
+        const areaFilter = areaSelect.value.toLowerCase();
+        const statusFilter = statusSelect.value.toLowerCase();
 
+        rows.forEach((row) => {
+          const name = getCellValue(row, "Name");
+          const area = getCellValue(row, "Area");
+          const status = getCellValue(row, "Status");
+
+          const matchName = name.includes(nameFilter);
+          const matchArea = areaFilter === "all" || area === areaFilter;
+          const matchStatus = statusFilter === "all" || status === statusFilter;
+
+          if (matchName && matchArea && matchStatus) {
+            row.style.display = "";
+          } else {
+            row.style.display = "none";
+          }
+        });
+      }
+
+      function resetFilters() {
+        nameInput.value = "";
+        areaSelect.value = "All";
+        statusSelect.value = "All";
+        filterTable();
+      }
+
+      nameInput.addEventListener("input", filterTable);
+      areaSelect.addEventListener("change", filterTable);
+      statusSelect.addEventListener("change", filterTable);
+    </script>
+  </body>
+</html>

@@ -19,6 +19,7 @@ class Order_shopResource extends JsonResource
     {
         //return parent::toArray($request);
         return[
+            'date_of_order' => $this->updated_at->format('d M  Y'),
             'client' => ClientResource::make(Client::findOrFail($this->client_id)),
             'product' => ProductResource::make(Product::findOrFail($this->product_id)),
             'amount' => $this->amount,
@@ -26,7 +27,7 @@ class Order_shopResource extends JsonResource
             'status' => $this->status,
             'location' => $this->location,
             'total' => $this->total,
-            'type' => $this->type
+            'type' => $this->type,
         ];
     }
 }

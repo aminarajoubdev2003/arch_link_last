@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use App\Models\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class Order_customizeResource extends JsonResource
@@ -20,7 +21,7 @@ class Order_customizeResource extends JsonResource
             'uuid' => $this->uuid,
             'client' => ClientResource::make(Client::findOrFail($this->client_id)),
             'address' => $this->address,
-            'image' => $this->image,
+            Storage::url($this->image),
             'color' => $this->color,
             'amount' => $this->amount,
             'high' => $this->high,

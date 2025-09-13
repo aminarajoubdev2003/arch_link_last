@@ -13,9 +13,10 @@ class DeliveryController extends Controller
 {
     public function index(){
         $deliveries = Delivery::all();
-        $areas = Area::all();
-        return view('companyAdmin.delivery', compact( 'areas' , 'deliveries'));
+        //$areas = Area::all();
+        return view('companyAdmin.delivery', compact('deliveries'));
        //dd( $areas );
+       //return view('companyAdmin.delivery');
     }
 
     public function create(){
@@ -25,8 +26,8 @@ class DeliveryController extends Controller
 
     public function store( Request $request){
         $validate = Validator::make($request->all(), [
-        'name' => 'required|string|min:3|max:20|regex:/^[A-Za-z]+$/',
-        'email' => 'required|email|unique:users,email',
+        'name' => 'required|string|min:3|max:20|regex:/^[A-Za-z\s]+$/',
+        'email' => 'required|email|unique:deliveries,email',
         'phone' => 'required|digits:10|unique:deliveries,phone_number|regex:/^(09)[0-9]{8}$/',
         "area_id" => "required|string|exists:areas,id"
         ],[
@@ -49,7 +50,8 @@ class DeliveryController extends Controller
         ]);
         return $this->index();
     } catch (\Exception $ex) {
-       return view('companyAdmin.addDelivery');
+       //return view('companyAdmin.addDelivery');
+       dd($ex);
     }
     }
 
@@ -58,50 +60,54 @@ class DeliveryController extends Controller
         $areas = Area::all();
         //return view('companyAdmin.editDelivery',['delivery' => $delivery]);
         return view('companyAdmin.editDelivery',compact('delivery','areas'));
-        //dd($id);
+        //dd($delivery);
 
     }
 
     public function update(Request $request, $id)
-{
-    $validate = Validator::make($request->all(), [
-        "name" => "string|min:3|max:20|regex:/^[A-Za-z]+$/",
+    {
+    $validate = Validator::make($request->all(),[
+        "name" => "string|min:3|max:20|regex:/^[A-Za-z\s]+$/",
         'phone_number' => 'digits:10|unique:deliveries,phone_number,' . $id . '|regex:/^(09)[0-9]{8}$/',
-        'area_id' => 'required|exists:areas,id',
-    ],[
-        'phone_number.unique' => 'Phone number already exists',
+        'area_id' => 'exists:areas,id',
+        //'busy' => 'in:0,1',
     ]);
 
     $delivery = Delivery::find($id);
     $areas = Area::all();
 
-    if ($validate->fails()) {
+    if ($validate->fails()){
         $errors = $validate->errors();
-        return view('companyAdmin.editDelivery', compact('errors','delivery','areas'));
+        //return view('companyAdmin.editDelivery', compact('errors','delivery','areas'));
+        dd($errors);
     }
-    //dd($request->all());
 
     try {
         $delivery->name = $request->name;
         $delivery->phone_number = $request->phone_number;
         $delivery->area_id = $request->area_id;
+        //$delivery->busy = $request->busy;
+
         if($delivery->save()){
-            echo 'ok';
+           $this->index();
         }
-            //echo $delivery->area_id;
 
     } catch (\Exception $ex) {
-        $errors = ['Something went wrong, please try again.'];
-        return view('companyAdmin.editDelivery', compact('errors','delivery','areas'));
+        //$errors = ['Something went wrong, please try again.'];
+        //return view('companyAdmin.editDelivery', compact('errors','delivery','areas'));
+        dd($ex);
     }
-}
+    }
 
     public function delete( $id ){
-        if ($city = Delivery::findOrFail($id)->delete()){
+        //echo 'yes';
+        $delivery = Delivery::findOrFail($id)->first();
 
+        if( $delivery->busy == 0 ){
+            $delivery->delete();
            return $this->index();
         }else{
-            $errors = 'there is problem in deletion';
+            $errors = ' you canot delete this delivery because he is busy';
             return view('admin.str_erroe',compact('errors'));
         }
     }
@@ -112,7 +118,7 @@ class DeliveryController extends Controller
         //return view('companyAdmin.deliveryTrash');
     }
 
-    public function restore($id)
+    /*public function restore($id)
     {
     // رجّع المدينة (مع الـ areas أوتوماتيك)
     $restored = City::withTrashed()->where('id', $id)->restore();
@@ -123,6 +129,6 @@ class DeliveryController extends Controller
         $errors = 'There is a problem in restoration data';
         return view('admin.str_error', compact('errors'));
     }
-    }
+    }*/
 
 }

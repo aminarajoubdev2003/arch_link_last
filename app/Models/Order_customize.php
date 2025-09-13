@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Order_customize extends Model
-{
+{   use SoftDeletes;
     protected $table = 'order_customizes';
 
     protected $fillable = [
@@ -20,7 +21,8 @@ class Order_customize extends Model
         'width',
         'length',
         'status',
-        'location'
+        'location',
+        'deleted_at'
     ];
 
 

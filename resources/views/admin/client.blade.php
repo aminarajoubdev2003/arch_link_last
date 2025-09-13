@@ -1956,9 +1956,9 @@
                 class="btn"
                 name="role"
               >
-                <option value="All">All</option>
-                <option value="designer">Designer</option>
-                <option value="customer">Customer</option>
+                <option value="all">all</option>
+                <option value="designer">designer</option>
+                <option value="customer">customer</option>
               </select>
             </div>
             <div class="btn reset-btn" onclick="resetFilters()">Reset</div>
@@ -1974,7 +1974,7 @@
                   alt=""
                 />
                 <h4 class="m-0">{{ $client->user->name }}</h4>
-                <p class="c-grey fs-13 mt-5 mb-0">{{ $client->user->user_type }}</p>
+                <p class="c-grey fs-13 mt-5 mb-0">{{ $client->user_type }}</p>
               </div>
               <div class="icons fs-14 p-relative">
                 <div class="mb-10">
@@ -1985,11 +1985,14 @@
                   <i class="fa-solid fa-phone"></i>
                   <span>{{ $client->phone_number }}</span>
                 </div>
+                {{-- <div class="mb-10">
+                  <i class="fa-solid fa-phone"></i>
+                  <span>{{ $client->user_type }}</span>
+                </div> --}}
                 <div>
                   <i class="fa-regular fa-envelope"></i>
                   <span>{{ $client->user->email }}</span>
                 </div>
-                <span class="vip fw-bold c-orange">VIP</span>
               </div>
               <div class="info between-flex fs-13">
                 <div class="ballance">
@@ -2415,7 +2418,7 @@
       let filteredNames = [];
       let filteredRoles = [];
       function resetFilters() {
-        roleSelect.value = "All";
+        roleSelect.value = "all";
         searchInput.value = "";
         showCards();
       }

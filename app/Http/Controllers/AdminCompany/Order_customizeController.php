@@ -12,6 +12,8 @@ class Order_customizeController extends Controller
     public function index(){
         $orders = Order_customize::where('status', 'accept')->get();
         return view('companyAdmin.customize', compact('orders'));
+       // return view('companyAdmin.customize');
+       //dd( $orders );
     }
     public function append( $id ){
         echo $id;

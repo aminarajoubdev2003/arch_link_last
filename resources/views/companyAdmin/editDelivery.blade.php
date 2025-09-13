@@ -1578,6 +1578,7 @@
           padding: 10px;
           border: 1px solid #d5d5d5;
         }
+
         .wrapper .content table tbody tr td::before {
           content: attr(data-label);
           font-weight: bold;
@@ -1609,8 +1610,8 @@
         font-size: 14px;
         letter-spacing: -0.06px;
       }
-      .control-products form select ,
-      .control-products form input:not(.btn) {
+      .control-products form input:not(.btn),
+      .control-products form select {
         padding: 13px 19px;
         border-radius: 6px;
         border: 1px solid #d8d8d8;
@@ -1996,7 +1997,7 @@
           <div class="logo-holder">
             <img
               style="width: 30px; height: 30px"
-              src="{{ asset('../imgs/logo.png') }}"
+              src="{{ asset('../imgs/logo.png')}}"
               alt=""
             />
             <h3 class="p-relative txt-c mt-0">ArchiLink</h3>
@@ -2130,8 +2131,8 @@
         <div class="wrapper">
           <div class="control-products content">
             <div class="holder">
-              <form method="post" action="{{ route('update-delivery',['id' => $delivery->id]) }}">
-              @csrf
+              <form method="POST" action="{{ route('update-delivery',['id' => $delivery->id]) }}">
+                @csrf
                 <div class="from">
                   <label for="name">Name</label>
                   <input
@@ -2142,32 +2143,39 @@
                     value="{{ $delivery->name }}"
                   />
                 </div>
-                <!--<div class="email">
+                <div class="email">
                   <label for="email">Email</label>
                   <input
                     type="email"
                     id="email"
                     name="email"
                     placeholder="Email"
-                    value=""
+                    value="{{ $delivery->email }}"
                   />
-                </div>-->
+                </div>
                 <div class="phone">
                   <label for="phone">Phone Number</label>
                   <input
                     type="tel"
-                    id="phone"
-                    name="phoneNumber"
+                    id="phone_number"
+                    name="phone_number"
                     value="{{ $delivery->phone_number}}"
                     placeholder="Phone Number"
                   />
                 </div>
                 <div class="area">
-                <label for="area_id">Area Name</label>
+                  <label for="area_id">Area</label>
+                  <!--<input
+                    type="text"
+                    name="area"
+                    value="homs"
+                    id="area"
+                    placeholder="Area"
+                  />-->
                 <select name="area_id" id="area_id">
-                @foreach ( $areas as $area )
-                <option value="{{ $area->id }}">{{ $area->area_name }} - {{ $area->city->city_name }}</option>
-                @endforeach
+                     @foreach ( $areas as $area )
+                    <option value="{{ $area->id }}">{{ $area->area_name }} - {{ optional($area->city)->city_name }}</option>
+                    @endforeach
                 </select>
                 </div>
                 <div
@@ -2178,18 +2186,22 @@
                     accent-color: var(--blue-color);
                   "
                 >
-                  <!--<label for="status">Busy</label>
+                  <!--<label for="busy">Status</label>
                    if
                   not busy just remover the checked attribute
-                  <input type="checkbox" name="busy" checked id="status" />-->
-                </div>
+                  <input type="checkbox" name="busy" checked id="status" />
+                  <select name="busy" id="busy">
+                    <option value="0">free</option>
+                    <option value="1">busy</option>
+                  </select>
+                </div>-->
                 <input class="btn" type="submit" value="Save" />
               </form>
             </div>
           </div>
           <div class="overlay notification" style="display: none">
             <div class="content">
-              <img src="../imgs/newOrder.png" alt="" />
+              <img src="{{ asset('../imgs/newOrder.png')}}" alt="" />
               <div class="text">
                 <p>You Have 3 new Orders!!</p>
                 <div class="btns">

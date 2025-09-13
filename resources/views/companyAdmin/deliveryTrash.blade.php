@@ -1626,8 +1626,7 @@
       }
       table tbody td .control-btn.edit,
       .courses-page .control-btn.edit {
-        border-right: none;
-        border-radius: 8px 0px 0px 8px;
+        border-radius: 8px;
       }
       table tbody td .control-btn.delete,
       .courses-page .control-btn.delete {
@@ -2057,7 +2056,7 @@
         </div>
         <!-- End Head -->
         <div class="special-head">
-          <h1 class="p-relative">Manage Delivery</h1>
+          <h1 class="p-relative">Deleted Delivery</h1>
           <!--<a href="addDelivery.html" class="btn">+ Add Delivery</a>-->
         </div>
         <div class="wrapper d-grid gap-20">
@@ -2068,7 +2067,7 @@
                   <th>Name</th>
                   <th>Email</th>
                   <th>Phone Number</th>
-                  <th>Area</th>
+                  <th>Work Place</th>
                   <th>Status</th>
                   <th>Action</th>
                 </tr>
@@ -2076,14 +2075,11 @@
               <tbody>
                 @foreach ( $deletedRecords as $deletedRecord )
                 <tr scope="row">
-                  <td data-label="Name">{{ $deletedRecord->name}}</td>
+                  <td data-label="Name">{{ $deletedRecord->name }}</td>
                   <td data-label="Email">{{ $deletedRecord->email }}</td>
-                  <td data-label="Phone Number">{{ $deletedRecord->phone_number}}</td>
-                  <td data-label="Area">
-                    {{ optional($deletedRecord->area)->area_name }} -
-                    {{ optional($deletedRecord->area->city)->city_name }}
-                  </td>
-                  <td data-label="Status">{{ $deletedRecord->busy == 0 ? 'free' : 'busy' }}</td>
+                  <td data-label="Phone Number">{{ $deletedRecord->phone_number }}</td>
+                  <td data-label="Area">{{ $deletedRecord->area->city->city_name }} - {{ $deletedRecord->area->area_name }}</td>
+                  <td data-label="Status">{{ $deletedRecord->busy }}</td>
                   <td data-label="Action">
                     <div class="btns">
                       <button class="control-btn edit">
@@ -2093,17 +2089,12 @@
                           alt=""
                         />
                       </button>
-                      <button
-                        class="control-btn delete"
-                        onclick="handlePopUp(true,0)"
-                      >
-                        <img src="../imgs/bin.png" alt="del" />
-                      </button>
+                      @endforeach
+
                     </div>
                   </td>
                 </tr>
-                @endforeach
-              <!--  <tr scope="row">
+                <!--<tr scope="row">
                   <td data-label="Name">Jhon Doe2</td>
                   <td data-label="Email">JhonDoe2@gmail.com</td>
                   <td data-label="Phone Number">0993811280</td>
