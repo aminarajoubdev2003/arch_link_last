@@ -2147,16 +2147,15 @@
         <div class="wrapper">
           <div class="control-products content">
             <div class="holder">
-              <form method="POST" action="{{ route('set-delivery' , ['id' => $delivere->id] )}}">
+              <form method="POST" action="{{ route('set-delivery' ,['id' => $order_item->id])}}">
                 @csrf
                 <div class="name">
-                  <label for="delivery-name">Select Delivery:</label>
-                  @foreach ( $deliveres as $delivere )
-                  <select name="delivery-name" id="delivery-name">
-                    <option value="{{ $delivere->id }}">{{ $delivere->email }}</option>
-                    <option value="{{ $delivere->id }}">{{ $delivere->email }}</option>
+                  <label for="delivery_id">Select Delivery:</label>
+                  <select name="delivery_id" id="delivery_id">
+                    @foreach ( $deliveres as $delivery )
+                    <option value="{{ $delivery->id }}">{{ $delivery->email }}</option>
+                    @endforeach
                   </select>
-                  @endforeach
                 </div>
                 <!-- <a class="btn" href="" type="submit">Set</a> -->
                 <input class="btn" type="submit" value="Set" />

@@ -47,7 +47,11 @@ class AuthController extends Controller
             }
             elseif( $client->user_type == 'company'){
                 $products = Product::all();
-                return view ('companyAdmin.index',compact('products'));
+                $categories = Product::pluck('category')->unique()->toArray();
+                $types = Product::pluck('type')->unique()->toArray();
+                $materials = Product::pluck('material')->unique()->toArray();
+                $colors = Product::pluck('color')->unique()->toArray();
+                return view ('companyAdmin.index',compact('products' ,'categories','types','materials','colors'));
             }else{
                 $errors = 'you donot have permission';
                 return view('admin.str_erroe',compact('errors'));

@@ -2135,11 +2135,13 @@
                   name="role"
                 >
                   <option value="all">All</option>
-
-                  <optgroup label="livingroom">
+                  @foreach ( $categories as $category )
+                  <option value="{{ $category }}">{{ $category }}</option>
+                  <!--<optgroup label="livingroom">
                     <option value="sofa">Sofa</option>
                     <option value="table">Table</option>
-                  </optgroup>
+                  </optgroup>-->
+                  @endforeach
                 </select>
               </div>
               <div class="style">
@@ -2184,8 +2186,10 @@
                   id="material-filter"
                 >
                   <option value="all">All</option>
-                  <option value="wood">wood</option>
-                  <option value="modern">Fur</option>
+                  @foreach ($materials as $material)
+                  <option value="wood">{{ $material }}</option>
+                  @endforeach
+                  <!--<option value="modern">Fur</option>-->
                 </select>
               </div>
               <div class="design-type">
@@ -2230,10 +2234,12 @@
                   id="color-filter"
                 >
                   <option value="all">All</option>
-                  <option value="plum" style="background-color: plum">
-                    plum
+                  @foreach ( $colors as $color )
+                  <option value="plum" style="background-color: {{ $color }}">
+                    {{ $color }}
                   </option>
-                  <option value="purple" style="background-color: purple">
+                  @endforeach
+                  <!--<option value="purple" style="background-color: purple">
                     purple
                   </option>
                   <option value="pink" style="background-color: pink">
@@ -2247,7 +2253,7 @@
                   </option>
                   <option value="burlywood" style="background-color: burlywood">
                     burlywood
-                  </option>
+                  </option>-->
                 </select>
               </div>
               <div class="price">

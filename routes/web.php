@@ -132,7 +132,7 @@ Route::controller(Order_shopController::class)->group(function (){
 
     Route::get('/shop/products','index')->name('shop-products');
     Route::get('/choose/{id}', 'choose')->name('shop-delivery');
-    Route::post('/set/{$order_item_id}', 'set')->name('set-delivery');
+    Route::post('/set/{id}', 'set')->name('set-delivery');
 
 });
 
