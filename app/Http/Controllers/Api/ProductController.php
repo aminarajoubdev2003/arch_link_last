@@ -24,7 +24,7 @@ class ProductController extends Controller
     }
 
     public function most_buy(){
-        $products = Product::where('buy', '>', 10)->get();
+        $products = Product::where('buy', '>', 1)->get();
         $products = Product_MinResource::collection($products);
          return $this->apiResponse($products);
     }

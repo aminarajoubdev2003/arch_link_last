@@ -43,6 +43,8 @@ Route::get('/products',[ProductController::class,'index'])->middleware('auth:san
 Route::get('/product/{uuid}',[ProductController::class,'show'])->middleware('auth:sanctum');
 Route::get('/products/details',[ProductController::class,'all'])->middleware('auth:sanctum');
 Route::get('/product/rates/{uuid}',[ProductController::class,'show_reviews'])->middleware('auth:sanctum');
+Route::get('/products/most_buy',[ProductController::class,'most_buy'])->middleware('auth:sanctum');
+
 
 Route::post('/choose',[Order_shopController::class,'store'])->middleware('auth:sanctum');
 Route::post('/edit/{uuid}',[Order_shopController::class,'edit_amount'])->middleware('auth:sanctum');

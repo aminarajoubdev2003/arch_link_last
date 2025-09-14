@@ -49,10 +49,10 @@ class ProductController extends Controller
 
         if($validate->fails()) {
           $errors = $validate->errors();
-          //return view('companyAdmin.error',compact('errors'));
-          dd($errors);
+          return view('companyAdmin.error',compact('errors'));
+          //dd($errors);
         }
-        //dd( $request->all());
+
         try {
 
             if( $request->block_file ){
@@ -80,16 +80,17 @@ class ProductController extends Controller
                     'images' => $images_product,
                     'block_file' => $block_file,
                 ]);
-                //return $this->index();
+
                 if( $product ){
-                    echo 'yes';
+                    return $this->index();
                 }else{
-                    echo 'no';
+                    $errors = 'there is a problem';
+                    return view('companyAdmin.error',compact('errors'));
                 }
             }
         } catch (Exception $ex) {
-          //return view('companyAdmin.addProduct');
-          dd( $ex);
+          return view('companyAdmin.addProduct');
+
         }
     }
 
@@ -111,11 +112,9 @@ class ProductController extends Controller
         //dd($product);
     }
 
-    public function update( Request $request , $id ){
-        //$product = Product::findOrFail($id);
-       // return view('companyAdmin.editProduct',compact('product'));
-        //dd($product);
-    }
+    /*public function update( Request $request , $id ){
+
+    }*/
 
     public function delete( $id ){
         if ($product = Product::findOrFail($id)->delete()){
