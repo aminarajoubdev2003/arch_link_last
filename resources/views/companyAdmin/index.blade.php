@@ -2135,8 +2135,8 @@
                   name="role"
                 >
                   <option value="all">All</option>
-                  @foreach ( $categories as $category )
-                  <option value="{{ $category }}">{{ $category }}</option>
+                  @foreach ( $types as $type )
+                  <option value="{{ $type }}">{{ $type }}</option>
                   <!--<optgroup label="livingroom">
                     <option value="sofa">Sofa</option>
                     <option value="table">Table</option>
@@ -2187,7 +2187,7 @@
                 >
                   <option value="all">All</option>
                   @foreach ($materials as $material)
-                  <option value="wood">{{ $material }}</option>
+                  <option value="{{ $material }}">{{ $material }}</option>
                   @endforeach
                   <!--<option value="modern">Fur</option>-->
                 </select>
@@ -2235,8 +2235,8 @@
                 >
                   <option value="all">All</option>
                   @foreach ( $colors as $color )
-                  <option value="plum" style="background-color: {{ $color }}">
-                    {{ $color }}
+                  <option value="{{ $color }}" style="background-color: {{ $color }}">
+
                   </option>
                   @endforeach
                   <!--<option value="purple" style="background-color: purple">
@@ -2377,6 +2377,7 @@
                     <li>
                       <h4>Color</h4>
                       <div class="colors">
+                        <p class="take-color" style="opacity:0">{{ $product->color }}</p>
                         <p class="color" style="background-color: {{ $product->color }}"></p>
                         <!--<p
                           class="color"
@@ -2543,7 +2544,6 @@
         const priceValue = document.querySelector(".price-filter-value");
 
         const courses = document.querySelectorAll(".course");
-
         function filterCourses() {
           const searchText = searchInput.value.toLowerCase();
           const selectedCategory = categorySelect.value;
@@ -2578,9 +2578,10 @@
               .querySelector(".detailed-infos li:nth-child(5) p")
               .textContent.toLowerCase();
             const colors = Array.from(
-              course.querySelectorAll(".detailed-infos li:nth-child(6) .color")
-            ).map((c) => c.style.backgroundColor);
+              course.querySelectorAll(".detailed-infos .colors .take-color")
+            ).map((c) => c.innerHTML);
 
+console.log(colors)
             let isVisible = true;
 
             if (searchText && !title.includes(searchText)) {
