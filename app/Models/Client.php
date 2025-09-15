@@ -19,6 +19,7 @@ class Client extends Authenticatable
         'area_id',
         'acount',
         'image',
+        'user_type'
     ];
 
     public function area():BelongsTo{

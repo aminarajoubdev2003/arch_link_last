@@ -2034,7 +2034,7 @@
           <div class="logo-holder">
             <img
               style="width: 30px; height: 30px"
-              src="../imgs/logo.png"
+              src="{{ asset('../imgs/logo.png')}}"
               alt=""
             />
             <h3 class="p-relative txt-c mt-0">ArchiLink</h3>
@@ -2043,7 +2043,7 @@
             <li>
               <a
                 class="active d-flex align-center fs-14 c-black rad-6 p-10"
-                href="index.html"
+                href="{{ route('list-product')}}"
               >
                 <i class="fa-regular fas fa-box"></i>
                 <span>Product</span>
@@ -2068,14 +2068,14 @@
               <div class="accordion-list" style="padding-left: 10px">
                 <a
                   class="d-flex align-center fs-14 c-black rad-6 p-10"
-                  href="shop.html"
+                  href="{{ route('shop-products')}}"
                 >
                   <i class="fas fa-store"></i>
                   <span>Shop</span>
                 </a>
                 <a
                   class="d-flex align-center fs-14 c-black rad-6 p-10"
-                  href="customize.html"
+                  href="{{ route('custom-products')}}"
                 >
                   <i class="fas fa-sliders-h"></i>
                   <span>Customize</span>
@@ -2085,7 +2085,7 @@
             <li>
               <a
                 class="d-flex align-center fs-14 c-black rad-6 p-10"
-                href="delivery.html"
+                href="{{ route('list-deliveries')}}"
               >
                 <i class="fa-solid fas fa-truck"></i>
                 <span>Delivery</span>
@@ -2107,16 +2107,16 @@
                 </div>
               </div>
               <div class="accordion-list" style="padding-left: 10px">
-                <a
+                <!--<a
                   class="d-flex align-center fs-14 c-black rad-6 p-10"
                   href="productTrash.html"
                 >
                   <i class="fas fa-box-open"></i>
                   <span>Product Trash</span>
-                </a>
+                </a>-->
                 <a
                   class="d-flex align-center fs-14 c-black rad-6 p-10"
-                  href="deliveryTrash.html"
+                  href="{{ route('deleted_delivery')}}"
                 >
                   <i class="fas fa-dumpster"></i>
                   <span>Delivery Trash</span>
@@ -2138,6 +2138,7 @@
               width: 100%;
             "
             class="logout"
+            onclick="window.location.href='{{ route('logout') }}'"
           >
             <i class="log-out-icon fas fa-power-off"></i>
             <span>Logout</span>
@@ -2147,7 +2148,7 @@
       <div class="content w-full">
         <!-- Start Head -->
         <div class="head p-15 between-flex">
-          <p style="margin: 0px">WorkTimes</p>
+          <p style="margin: 0px">Products</p>
           <div class="icons d-flex align-center">
             <span
               style="cursor: pointer"
@@ -2156,8 +2157,8 @@
             >
               <i class="fa-regular fa-bell fa-lg"></i>
             </span>
-            <a href="profile.html">
-              <img src="../imgs/avatar.png" alt="" />
+            <a href="{{ route('adminprofile')}}">
+              <img src="{{ asset('../imgs/avatar.png')}}" alt="" />
             </a>
           </div>
         </div>
@@ -2209,7 +2210,7 @@
                   ></textarea>
                 </div>
                 <div class="btns">
-                  <button class="btn" onclick="showNext(1,event)">Next</button>
+                 <!-- <button class="btn" onclick="showNext(1,event)">Next</button>-->
                 </div>
               </div>
               <div
@@ -2218,7 +2219,7 @@
               >
                 <div class="upload">
                   <input name = "product_images[]" class="upload-input" type="file" multiple />
-                  <img src="../imgs/upload-icon.png" alt="product image" />
+                  <img src="{{ asset('../imgs/upload-icon.png')}}" alt="product image" />
                 </div>
               </div>
             </div>
@@ -2226,17 +2227,17 @@
               <div class="prev-form size">
                 <div class="width">
                   <label for="width">Width</label>
-                  <input  name = "width" type="text" id="width" placeholder="ex: 15m" />
+                  <input  name = "width" type="text" id="width" placeholder="ex: 15 cm" />
                 </div>
                 <div class="height">
                   <label for="height">Height</label>
-                  <input name = "height" type="text" id="height" placeholder="ex: 15m" />
+                  <input name = "height" type="text" id="height" placeholder="ex: 15 cm" />
                 </div>
                 <div class="length">
                   <label for="length">Length</label>
-                  <input name = "length" type="text" id="length" placeholder="ex: 15m" />
+                  <input name = "length" type="text" id="length" placeholder="ex: 15 cm" />
                 </div>
-                <button class="btn" onclick="showNext(2,event)">Next</button>
+                <!--<button class="btn" onclick="showNext(2,event)">Next</button>-->
               </div>
             </div>
             <div class="holder info" style="display: none">
@@ -2299,7 +2300,7 @@
                 </div>
                 </div>
                 <div class="colors">
-                  <label for="colors">Colors</label>
+                  <label for="colors">Color</label>
                   <div class="inputs">
                     <input type="color" name="color" />
                   </div>
@@ -2310,7 +2311,7 @@
           </form>
           <div class="overlay notification" style="display: none">
             <div class="content">
-              <img src="../imgs/newOrder.png" alt="" />
+              <img src="{{ asset('../imgs/newOrder.png')}}" alt="" />
               <div class="text">
                 <p>You Have 3 new Orders!!</p>
                 <div class="btns">

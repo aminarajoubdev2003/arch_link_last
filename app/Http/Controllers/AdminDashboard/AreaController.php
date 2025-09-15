@@ -7,6 +7,7 @@ use App\Models\City;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Delivery;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Validator;
 
@@ -65,7 +66,7 @@ class AreaController extends Controller
     public function update(Request $request, $id)
     {
         $validate = Validator::make($request->all(), [
-            "area_name" => "string|min:3|max:20|regex:/^[A-Za-z]+$/",
+            "area_name" => "string|min:3|max:20|regex:/^[A-Za-z\-\s]+$/",
             "city_id" => "string|exists:cities,id"
         ]);
 
@@ -94,6 +95,14 @@ class AreaController extends Controller
 
     public function delete( $id ){
         if ($area = Area::findOrFail($id)->delete()){
+
+            $deliveries = Delivery::where('area_id',$id)->get();
+
+
+            foreach( $deliveries as $delivery){
+                $delivery->delete();
+
+            }
            return $this->index();
         }else{
             $errors = 'there is problem in deletion';

@@ -2034,7 +2034,7 @@
           <div class="logo-holder">
             <img
               style="width: 30px; height: 30px"
-              src="../imgs/logo.png"
+              src="{{ asset('../imgs/logo.png')}}"
               alt=""
             />
             <h3 class="p-relative txt-c mt-0">ArchiLink</h3>
@@ -2043,7 +2043,7 @@
             <li>
               <a
                 class="active d-flex align-center fs-14 c-black rad-6 p-10"
-                href="index.html"
+                href="{{ route('list-product')}}
               >
                 <i class="fa-regular fas fa-box"></i>
                 <span>Product</span>
@@ -2068,14 +2068,14 @@
               <div class="accordion-list" style="padding-left: 10px">
                 <a
                   class="d-flex align-center fs-14 c-black rad-6 p-10"
-                  href="shop.html"
+                  href="{{ route('shop-products')}}"
                 >
                   <i class="fas fa-store"></i>
                   <span>Shop</span>
                 </a>
                 <a
                   class="d-flex align-center fs-14 c-black rad-6 p-10"
-                  href="customize.html"
+                  href="{{ route('custom-products')}}"
                 >
                   <i class="fas fa-sliders-h"></i>
                   <span>Customize</span>
@@ -2085,7 +2085,7 @@
             <li>
               <a
                 class="d-flex align-center fs-14 c-black rad-6 p-10"
-                href="delivery.html"
+                href="{{ route('list-deliveries')}}"
               >
                 <i class="fa-solid fas fa-truck"></i>
                 <span>Delivery</span>
@@ -2107,16 +2107,16 @@
                 </div>
               </div>
               <div class="accordion-list" style="padding-left: 10px">
-                <a
+                <!--<a
                   class="d-flex align-center fs-14 c-black rad-6 p-10"
                   href="productTrash.html"
                 >
                   <i class="fas fa-box-open"></i>
                   <span>Product Trash</span>
-                </a>
+                </a>-->
                 <a
                   class="d-flex align-center fs-14 c-black rad-6 p-10"
-                  href="deliveryTrash.html"
+                  href="{{ route('deleted_delivery')}}"
                 >
                   <i class="fas fa-dumpster"></i>
                   <span>Delivery Trash</span>
@@ -2138,6 +2138,7 @@
               width: 100%;
             "
             class="logout"
+            onclick="window.location.href='{{ route('logout') }}'"
           >
             <i class="log-out-icon fas fa-power-off"></i>
             <span>Logout</span>
@@ -2147,7 +2148,7 @@
       <div class="content w-full">
         <!-- Start Head -->
         <div class="head p-15 between-flex">
-          <p style="margin: 0px">WorkTimes</p>
+          <p style="margin: 0px">Products</p>
           <div class="icons d-flex align-center">
             <span
               style="cursor: pointer"
@@ -2156,8 +2157,8 @@
             >
               <i class="fa-regular fa-bell fa-lg"></i>
             </span>
-            <a href="profile.html">
-              <img src="../imgs/avatar.png" alt="" />
+            <a href="{{ route('adminprofile')}}">
+              <img src="{{ asset('../imgs/avatar.png')}}" alt="" />
             </a>
           </div>
         </div>
@@ -2171,7 +2172,8 @@
           </ul>
         </div>
         <div class="wrapper" style="height: 100%">
-          <form class="control-products content" style="height: 100%">
+          <form action="{{ route('update-product' ,['id' => $product->id])}}" method="POST"  enctype="multipart/form-data" class="control-products content" style="height: 100%">
+            @csrf
             <div class="holder general" style="height: 100%">
               <div class="prev-form general">
                 <div class="title">
@@ -2181,7 +2183,7 @@
                     id="title"
                     placeholder="ex: sweet sofa"
                     name="title"
-                    value="sweet sofa"
+                    value="{{ $product->title }}"
                   />
                 </div>
                 <div class="price">
@@ -2194,10 +2196,10 @@
                     id="price"
                     placeholder="ex: 200$"
                     name="price"
-                    value="200"
+                    value="{{ $product->price }}"
                   />
                 </div>
-                <div class="amount">
+                <!--<div class="amount">
                   <label for="amount">Amount</label>
                   <input
                     type="number"
@@ -2206,15 +2208,15 @@
                     name="amount"
                     value="5"
                   />
-                </div>
+                </div>-->
                 <div class="time-to-make">
                   <label for="time-to-make">Time to Make</label>
                   <input
                     type="text"
-                    id="time-to-make"
+                    id="time_to_make"
                     placeholder="ex: 5 days"
-                    name="time-to-make"
-                    value="5days"
+                    name="time_to_make"
+                    value="{{ $product->time_to_make}}"
                   />
                 </div>
                 <div class="description">
@@ -2224,11 +2226,11 @@
                     id="description"
                     name="description"
                   >
-soft sofa</textarea
+{{ $product->desc }}</textarea
                   >
                 </div>
                 <div class="btns">
-                  <button class="btn" onclick="showNext(1,event)">Next</button>
+                  <!--<button class="btn" onclick="showNext(1,event)">Next</button>-->
                 </div>
               </div>
               <div
@@ -2237,14 +2239,15 @@ soft sofa</textarea
               >
                 <div class="upload">
                   <input
+                  name = "product_images[]"
                     class="upload-input"
                     type="file"
                     multiple
                     name="image"
                   />
                   <img
-                    style="width: 300px; height: 300px"
-                    src="../imgs/course-03.jpg"
+
+                    src="{{ asset('../imgs/upload-icon.png')}}"
                     alt="product image"
                   />
                 </div>
@@ -2259,7 +2262,7 @@ soft sofa</textarea
                     id="width"
                     placeholder="ex: 15m"
                     name="width"
-                    value="15px"
+                    value="{{ $product->width }}"
                   />
                 </div>
                 <div class="height">
@@ -2269,7 +2272,7 @@ soft sofa</textarea
                     id="height"
                     placeholder="ex: 15m"
                     name="height"
-                    value="15px"
+                    value="{{ $product->height }}"
                   />
                 </div>
                 <div class="length">
@@ -2279,10 +2282,10 @@ soft sofa</textarea
                     id="length"
                     placeholder="ex: 15m"
                     name="length"
-                    value="15px"
+                    value="{{ $product->length }}"
                   />
                 </div>
-                <button class="btn" onclick="showNext(2,event)">Next</button>
+                <!--<button class="btn" onclick="showNext(2,event)">Next</button>-->
               </div>
             </div>
             <div class="holder info" style="display: none">
@@ -2304,7 +2307,7 @@ soft sofa</textarea
                     id="category"
                     placeholder="ex: Livingroom"
                     name="category"
-                    value="Livingroom"
+                    value="{{ $product->category }}"
                   />
                 </div>
                 <div class="type">
@@ -2314,7 +2317,7 @@ soft sofa</textarea
                     id="type"
                     placeholder="ex: Sofa"
                     name="type"
-                    value="sofa"
+                    value="{{ $product->type }}"
                   />
                 </div>
                 <div class="style">
@@ -2324,7 +2327,7 @@ soft sofa</textarea
                     id="style"
                     placeholder="ex: Modern"
                     name="style"
-                    value="modern"
+                    value="{{ $product->style }}"
                   />
                 </div>
                 <div class="material">
@@ -2334,18 +2337,15 @@ soft sofa</textarea
                     id="material"
                     placeholder="ex: wood"
                     name="material"
-                    value="wood"
+                    value="{{ $product->material }}"
                   />
                 </div>
                 <div class="design-type">
-                  <label for="design-type">Design Type</label>
-                  <input
-                    type="text"
-                    id="design-type"
-                    placeholder="ex: interior"
-                    name="design-type"
-                    value="interior"
-                  />
+                  <label for="design_type">Design Type</label>
+                  <select id="design_type" name='design_type'>
+                    <option value="internal">internal</option>
+                    <option value="external">external</option>
+                  </select>
                 </div>
                 <div class="sale">
                   <label for="sale">Sale</label>
@@ -2353,16 +2353,20 @@ soft sofa</textarea
                     type="text"
                     id="sale"
                     name="sale"
-                    value="50%"
+                    value="{{ $product->sale }}"
                     placeholder="ex: 50%"
                   />
                 </div>
+                <div class="block-file">
+                <label for="file">Block File</label>
+                <div class="input">
+                    <input style="width: 100%; background: white" type="file" id="file" name="block_file" placeholder="Upload Block" />
+                </div>
+                </div>
                 <div class="colors">
-                  <label for="colors">Colors</label>
+                  <label for="colors">Color</label>
                   <div class="inputs">
-                    <input type="color" name="first-color" value="#ff0000" />
-                    <input type="color" name="second-color" value="#00ff00" />
-                    <input type="color" name="third-color" value="#0000ff" />
+                    <input type="color" name="color" />
                   </div>
                 </div>
                 <input class="btn" type="submit" value="Save" />

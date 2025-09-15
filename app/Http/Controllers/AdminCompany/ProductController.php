@@ -17,9 +17,11 @@ class ProductController extends Controller
 
     public function index(){
         $products = Product::all();
-        return view ('companyAdmin.index',compact('products'));
-        //return view ('companyAdmin.index');
-        //dd($products);
+        $categories = Product::pluck('category')->unique()->toArray();
+        $types = Product::pluck('type')->unique()->toArray();
+        $materials = Product::pluck('material')->unique()->toArray();
+        $colors = Product::pluck('color')->unique()->toArray();
+        return view ('companyAdmin.index',compact('products' ,'categories','types','materials','colors'));
     }
 
     public function create(){
@@ -54,7 +56,8 @@ class ProductController extends Controller
         }
 
         try {
-
+            $product = Product::where( 'title' , $request->title)->first();
+            if( !$product ){
             if( $request->block_file ){
                 $block_file = $this->upload_file( $request->block_file , 'products/files');
             }
@@ -85,8 +88,12 @@ class ProductController extends Controller
                     return $this->index();
                 }else{
                     $errors = 'there is a problem';
-                    return view('companyAdmin.error',compact('errors'));
+                    return view('companyAdmin.str_erroe',compact('errors'));
                 }
+            }
+            }else{
+                $errors = 'this  product is ';
+                return view('companyAdmin.str_erroe',compact('errors'));
             }
         } catch (Exception $ex) {
           return view('companyAdmin.addProduct');
@@ -109,31 +116,80 @@ class ProductController extends Controller
     public function edit( $id ){
         $product = Product::findOrFail($id);
         return view('companyAdmin.editProduct',compact('product'));
-        //dd($product);
     }
 
-    /*public function update( Request $request , $id ){
+    public function update(Request $request, $id)
+{
+    // التحقق من صحة البيانات
+    $validate = Validator::make($request->all(), [
+        'title' => 'string|min:3|max:50|regex:/^[A-Za-z0-9\s\-,]+$/',
+        'design_type' => 'in:internal,external',
+        'category' => 'string|min:3|max:50|regex:/^[A-Za-z0-9\s\-\+,]+$/',
+        "type" => "string|min:3|max:20|regex:/^[A-Za-z0-9\s\-\+,]+$/",
+        'style' => "string|min:3|max:20|regex:/^[A-Za-z0-9\s\-,]+$/",
+        'material' => "string|min:3|max:50|regex:/^[A-Za-z,\s]+$/",
+        'price' => "integer|min:100|max:200000",
+        'height' => "string",
+        'width' => "nullable|string",
+        'length' => "string",
+        'color' => 'string',
+        'sale' => "nullable|regex:/^\d+%?$/",
+        'description' => 'string',
+        'time_to_make' => 'string',
+        'product_images' => "nullable|array",
+        'product_images.*' => "nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048",
+        'block_file' => "nullable|file|mimes:rar|max:50240",
+    ]);
 
-    }*/
+    if ($validate->fails()) {
+        $errors = $validate->errors();
+        return view('companyAdmin.error', compact('errors'));
+    }
 
-    public function delete( $id ){
-        if ($product = Product::findOrFail($id)->delete()){
-           return $this->index();
-        }else{
-            $errors = 'there is problem in deletion';
-            return view('admin.str_erroe',compact('errors'));
+    try {
+
+        $product = Product::find($id);
+        if (!$product) {
+            $errors = 'Product not found.';
+            return view('companyAdmin.str_erroe', compact('errors'));
         }
-    }
 
-    public function deleted_product( ){
-        $deletedRecords = Product::onlyTrashed()->get();
-        return view('companyAdmin.productTrash', compact('deletedRecords'));
-    }
+        $block_file = $product->block_file;
+        if ($request->block_file) {
+            $block_file = $this->upload_file($request->block_file, 'products/files');
+        }
 
-    public function restore( $id ){
-       $restored = Product::withTrashed()->where('id', $id)->first();
-        $restored->restore();
+        $images_product = $product->images;
+        if ($request->hasFile('product_images')) {
+            $images_product = $this->upload_files($request->product_images, 'products/images');
+        }
+
+
+        $product->update([
+            'title' => $request->title,
+            'design_type' => $request->design_type,
+            'category' => $request->category,
+            "type" => $request->type,
+            'style' => $request->style,
+            'material' => $request->material,
+            'price' => $request->price,
+            'height' => $request->height,
+            'width' => $request->width,
+            'length' => $request->length,
+            'color' => $request->color,
+            'sale' => $request->sale ?? '0%',
+            'desc' => $request->description,
+            'time_to_make' => $request->time_to_make,
+            'images' => $images_product,
+            'block_file' => $block_file,
+        ]);
+
         return $this->index();
 
+    } catch (Exception $ex) {
+        return view('companyAdmin.editProduct');
+
     }
+}
+
 }

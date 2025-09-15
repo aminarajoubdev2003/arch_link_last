@@ -69,8 +69,8 @@ class DeliveryController extends Controller
     $validate = Validator::make($request->all(),[
         "name" => "string|min:3|max:20|regex:/^[A-Za-z\s]+$/",
         'phone_number' => 'digits:10|unique:deliveries,phone_number,' . $id . '|regex:/^(09)[0-9]{8}$/',
+        'email' => 'required|email|unique:deliveries,email',
         'area_id' => 'exists:areas,id',
-        //'busy' => 'in:0,1',
     ]);
 
     $delivery = Delivery::find($id);
@@ -78,24 +78,23 @@ class DeliveryController extends Controller
 
     if ($validate->fails()){
         $errors = $validate->errors();
+        return view('companyAdmin.error',compact('errors'));
         //return view('companyAdmin.editDelivery', compact('errors','delivery','areas'));
-        dd($errors);
     }
 
     try {
         $delivery->name = $request->name;
         $delivery->phone_number = $request->phone_number;
+        $delivery->email = $request->email;
         $delivery->area_id = $request->area_id;
-        //$delivery->busy = $request->busy;
 
         if($delivery->save()){
-           $this->index();
+           return $this->index();
         }
 
     } catch (\Exception $ex) {
-        //$errors = ['Something went wrong, please try again.'];
-        //return view('companyAdmin.editDelivery', compact('errors','delivery','areas'));
-        dd($ex);
+        return view('companyAdmin.editDelivery');
+
     }
     }
 
@@ -118,10 +117,10 @@ class DeliveryController extends Controller
         //return view('companyAdmin.deliveryTrash');
     }
 
-    /*public function restore($id)
+    public function restore($id)
     {
-    // رجّع المدينة (مع الـ areas أوتوماتيك)
-    $restored = City::withTrashed()->where('id', $id)->restore();
+
+    $restored = Delivery::withTrashed()->where('id', $id)->restore();
 
     if ($restored) {
         return $this->index();
@@ -129,6 +128,6 @@ class DeliveryController extends Controller
         $errors = 'There is a problem in restoration data';
         return view('admin.str_error', compact('errors'));
     }
-    }*/
+    }
 
 }

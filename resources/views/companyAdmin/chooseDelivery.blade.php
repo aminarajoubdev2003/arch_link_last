@@ -1998,7 +1998,7 @@
           <div class="logo-holder">
             <img
               style="width: 30px; height: 30px"
-              src="../imgs/logo.png"
+              src="{{ asset('../imgs/logo.png')}}"
               alt=""
             />
             <h3 class="p-relative txt-c mt-0">ArchiLink</h3>
@@ -2008,7 +2008,7 @@
             <li>
               <a
                 class="d-flex align-center fs-14 c-black rad-6 p-10"
-                href="index.html"
+                href="{{ route('list-product')}}"
               >
                 <i class="fas fa-box fa-fw"></i>
                 <span>Product</span>
@@ -2035,7 +2035,7 @@
                 <!-- Shop -->
                 <a
                   class="active d-flex align-center fs-14 c-black rad-6 p-10"
-                  href="shop.html"
+                  href="{{ route('shop-products')}}"
                 >
                   <i class="fas fa-store fa-fw"></i>
                   <span>Shop</span>
@@ -2044,7 +2044,7 @@
                 <!-- Customize -->
                 <a
                   class="d-flex align-center fs-14 c-black rad-6 p-10"
-                  href="customize.html"
+                  href="{{ route('custom-products')}}"
                 >
                   <i class="fas fa-sliders-h fa-fw"></i>
                   <span>Customize</span>
@@ -2056,7 +2056,7 @@
             <li>
               <a
                 class="d-flex align-center fs-14 c-black rad-6 p-10"
-                href="delivery.html"
+                href="{{ route('list-deliveries')}}"
               >
                 <i class="fas fa-truck fa-fw"></i>
                 <span>Delivery</span>
@@ -2081,18 +2081,18 @@
               </div>
               <div class="accordion-list" style="padding-left: 10px">
                 <!-- Product Trash -->
-                <a
+                <!--<a
                   class="d-flex align-center fs-14 c-black rad-6 p-10"
                   href="productTrash.html"
                 >
                   <i class="fas fa-box-open fa-fw"></i>
                   <span>Product Trash</span>
-                </a>
+                </a>-->
 
                 <!-- Delivery Trash -->
                 <a
                   class="d-flex align-center fs-14 c-black rad-6 p-10"
-                  href="deliveryTrash.html"
+                  href="{{ route('deleted_delivery')}}"
                 >
                   <i class="fas fa-dumpster fa-fw"></i>
                   <span>Delivery Trash</span>
@@ -2116,6 +2116,7 @@
               width: 100%;
             "
             class="logout"
+            onclick="window.location.href='{{ route('logout') }}'"
           >
             <i class="fas fa-power-off"></i>
             <span>Logout</span>
@@ -2135,8 +2136,8 @@
             >
               <i class="fa-regular fa-bell fa-lg"></i>
             </span>
-            <a href="profile.html">
-              <img src="../imgs/avatar.png" alt="" />
+            <a href="{{ route('adminprofile')}}">
+              <img src="{{ asset('../imgs/avatar.png')}}" alt="" />
             </a>
           </div>
         </div>

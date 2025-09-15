@@ -1979,7 +1979,7 @@
             <li>
               <a
                 class="active d-flex align-center fs-14 c-black rad-6 p-10"
-                href="index.html"
+                href="{{ route('list-product')}}"
               >
                 <i class="fa-regular fas fa-box"></i>
                 <span>Product</span>
@@ -2074,6 +2074,7 @@
               width: 100%;
             "
             class="logout"
+            onclick="window.location.href='{{ route('logout') }}'"
           >
             <i class="log-out-icon fas fa-power-off"></i>
             <span>Logout</span>
@@ -2092,7 +2093,7 @@
             >
               <i class="fa-regular fa-bell fa-lg"></i>
             </span>
-            <a href="profile.html">
+            <a href="{{ route('adminprofile')}}">
               <img src="{{ asset('../imgs/avatar.png')}}" alt="" />
             </a>
           </div>

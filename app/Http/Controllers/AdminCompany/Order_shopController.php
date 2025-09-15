@@ -42,14 +42,19 @@ class Order_shopController extends Controller
         }
         try{
         $order_item = Order_items::findOrFail($id);
+        $delivery = Delivery::findOrFail( $request->delivery_id);
+
         $order_item->delivery_id = $request->delivery_id;
         $order_item->type = 'delivered';
         $order_item->save();
-        
+
+        $delivery->busy = 1;
+        $delivery->save();
+
         return $this->index();
 
         }catch (\Exception $ex) {
-        return view('admin.EditCity');
+        return view('companyAdmin.shop');
         }
     }
 }

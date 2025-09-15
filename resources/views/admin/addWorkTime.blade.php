@@ -1795,7 +1795,7 @@
         <div class="logo-holder">
           <img
             style="width: 30px; height: 30px"
-            src="../imgs/logo.png"
+            src="{{ asset('../imgs/logo.png')}}"
             alt=""
           />
           <h3 class="p-relative txt-c mt-0">ArchiLink</h3>
@@ -1813,7 +1813,7 @@
           <li>
             <a
               class="d-flex align-center fs-14 c-black rad-6 p-10"
-              href="area.html"
+              href="{{ route('list-areas')}}"
             >
               <i class="fa-solid fas fa-chart-area fa-fw"></i>
               <span>Area</span>
@@ -1822,7 +1822,7 @@
           <li>
             <a
               class="active d-flex align-center fs-14 c-black rad-6 p-10"
-              href="settings.html"
+              href="{{ route('list-settings') }}"
             >
               <i class="fa-solid fa-gear fa-fw"></i>
               <span>Settings</span>
@@ -1831,7 +1831,7 @@
           <li>
             <a
               class="active d-flex align-center fs-14 c-black rad-6 p-10"
-              href="client.html"
+              href="{{ route('list-clients')}}"
             >
               <i class="fa-regular fa-user fa-fw"></i>
               <span>Client</span>
@@ -1840,7 +1840,7 @@
           <li>
             <a
               class="d-flex align-center fs-14 c-black rad-6 p-10"
-              href="order.html"
+              href="{{ route('list-orders')}}"
             >
               <i class="fa-solid fas fa-shopping-basket fa-fw"></i>
               <span>Order</span>
@@ -1864,21 +1864,21 @@
             <div class="accordion-list" style="padding-left: 10px">
               <a
                 class="d-flex align-center fs-14 c-black rad-6 p-10"
-                href="trash.html"
+                href="{{ route('worktimes-deleted')}}"
               >
                 <i class="far fa-clock fa-fw"></i>
                 <span>WorkTimes Trash</span>
               </a>
               <a
                 class="d-flex align-center fs-14 c-black rad-6 p-10"
-                href="trash.html"
+                href="{{ route('cities-deleted')}}"
               >
                 <i class="fa-regular fas fa-city"></i>
                 <span>Cities Trash</span>
               </a>
               <a
                 class="d-flex align-center fs-14 c-black rad-6 p-10"
-                href="trash.html"
+                href="{{ route('areas-deleted')}}"
               >
                 <i class="fa-solid fas fa-chart-area fa-fw"></i>
                 <span>Areas Trash</span>
@@ -1899,6 +1899,7 @@
             width: 75%;
           "
           class="logout"
+          onclick="window.location.href='{{ route('logout') }}'"
         >
           <i class="log-out-icon fas fa-power-off"></i>
           <span>Logout</span>
@@ -1916,8 +1917,8 @@
             >
               <i class="fa-regular fa-bell fa-lg"></i>
             </span>
-            <a href="profile.html">
-              <img src="../imgs/avatar.png" alt="" />
+            <a href="{{ route('adminprofile') }}">
+              <img src="{{ asset('../imgs/avatar.png')}}" alt="" />
             </a>
           </div>
         </div>

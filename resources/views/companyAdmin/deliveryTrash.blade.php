@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
-    <link rel="stylesheet" href="../css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -1918,7 +1918,7 @@
           <div class="logo-holder">
             <img
               style="width: 30px; height: 30px"
-              src="../imgs/logo.png"
+              src="{{ asset('../imgs/logo.png')}}"
               alt=""
             />
             <h3 class="p-relative txt-c mt-0">ArchiLink</h3>
@@ -1928,7 +1928,7 @@
             <li>
               <a
                 class="d-flex align-center fs-14 c-black rad-6 p-10"
-                href="index.html"
+                href="{{ route('list-product')}}"
               >
                 <i class="fas fa-box fa-fw"></i>
                 <span>Product</span>
@@ -1954,14 +1954,14 @@
               <div class="accordion-list" style="padding-left: 10px">
                 <a
                   class="d-flex align-center fs-14 c-black rad-6 p-10"
-                  href="shop.html"
+                  href="{{ route('shop-products')}}"
                 >
                   <i class="fas fa-store fa-fw"></i>
                   <span>Shop</span>
                 </a>
                 <a
                   class="d-flex align-center fs-14 c-black rad-6 p-10"
-                  href="customize.html"
+                  href="{{ route('custom-products')}}"
                 >
                   <i class="fas fa-sliders-h fa-fw"></i>
                   <span>Customize</span>
@@ -1973,7 +1973,7 @@
             <li>
               <a
                 class="d-flex align-center fs-14 c-black rad-6 p-10"
-                href="delivery.html"
+                href="{{ route('list-deliveries')}}"
               >
                 <i class="fas fa-truck fa-fw"></i>
                 <span>Delivery</span>
@@ -1997,16 +1997,16 @@
                 </div>
               </div>
               <div class="accordion-list" style="padding-left: 10px">
-                <a
+                <!--<a
                   class="d-flex align-center fs-14 c-black rad-6 p-10"
                   href="productTrash.html"
                 >
                   <i class="fas fa-box-open fa-fw"></i>
                   <span>Product Trash</span>
-                </a>
+                </a>-->
                 <a
                   class="active d-flex align-center fs-14 c-black rad-6 p-10"
-                  href="deliveryTrash.html"
+                  href="{{ route('deleted_delivery')}}"
                 >
                   <i class="fas fa-dumpster fa-fw"></i>
                   <span>Delivery Trash</span>
@@ -2030,6 +2030,7 @@
               width: 100%;
             "
             class="logout"
+            onclick="window.location.href='{{ route('logout') }}'"
           >
             <i class="fas fa-power-off"></i>
             <span>Logout</span>
@@ -2049,8 +2050,8 @@
             >
               <i class="fa-regular fa-bell fa-lg"></i>
             </span>
-            <a href="profile.html">
-              <img src="../imgs/avatar.png" alt="" />
+            <a href="{{ route('adminprofile')}}">
+              <img src="{{ asset('../imgs/avatar.png') }}" alt="" />
             </a>
           </div>
         </div>
@@ -2068,7 +2069,6 @@
                   <th>Email</th>
                   <th>Phone Number</th>
                   <th>Work Place</th>
-                  <th>Status</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -2079,93 +2079,31 @@
                   <td data-label="Email">{{ $deletedRecord->email }}</td>
                   <td data-label="Phone Number">{{ $deletedRecord->phone_number }}</td>
                   <td data-label="Area">{{ $deletedRecord->area->city->city_name }} - {{ $deletedRecord->area->area_name }}</td>
-                  <td data-label="Status">{{ $deletedRecord->busy }}</td>
+                  <!--<td data-label="Status"></td>-->
                   <td data-label="Action">
                     <div class="btns">
-                      <button class="control-btn edit">
+                      <!--<button class="control-btn edit">
+
                         <img
                           title="restore"
                           src="../imgs/restoreIcon.png"
                           alt=""
                         />
-                      </button>
+                      </button>-->
+                      <a  href="{{ route('delivery-restore', $deletedRecord->id) }}" style="display: inline-block" class="control-btn edit">
+                    <img
+                    title="restore"
+                    style="    width: 20px;"
+                    src="{{ asset('imgs/restoreIcon.png') }}"
+                    alt="restore"
+                    />
+                    </a>
                       @endforeach
 
                     </div>
                   </td>
                 </tr>
-                <!--<tr scope="row">
-                  <td data-label="Name">Jhon Doe2</td>
-                  <td data-label="Email">JhonDoe2@gmail.com</td>
-                  <td data-label="Phone Number">0993811280</td>
-                  <td data-label="Area">Damascus</td>
-                  <td data-label="Status">Free</td>
-                  <td data-label="Action">
-                    <div class="btns">
-                      <button class="control-btn edit">
-                        <img
-                          title="restore"
-                          src="../imgs/restoreIcon.png"
-                          alt=""
-                        />
-                      </button>
-                      <button
-                        class="control-btn delete"
-                        onclick="handlePopUp(true,0)"
-                      >
-                        <img src="../imgs/bin.png" alt="del" />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-                <tr scope="row">
-                  <td data-label="Name">Jhon Doe3</td>
-                  <td data-label="Email">JhonDoe3@gmail.com</td>
-                  <td data-label="Phone Number">0993811280</td>
-                  <td data-label="Area">Hama</td>
-                  <td data-label="Status">Busy</td>
-                  <td data-label="Action">
-                    <div class="btns">
-                      <button class="control-btn edit">
-                        <img
-                          title="restore"
-                          src="../imgs/restoreIcon.png"
-                          alt=""
-                        />
-                      </button>
-                      <button
-                        class="control-btn delete"
-                        onclick="handlePopUp(true,0)"
-                      >
-                        <img src="../imgs/bin.png" alt="del" />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-                <tr scope="row">
-                  <td data-label="Name">Jhon Doe4</td>
-                  <td data-label="Email">JhonDoe4@gmail.com</td>
-                  <td data-label="Phone Number">0993811280</td>
-                  <td data-label="Area">Aleppo</td>
-                  <td data-label="Status">Busy</td>
-                  <td data-label="Action">
-                    <div class="btns">
-                      <button class="control-btn edit">
-                        <img
-                          title="restore"
-                          src="../imgs/restoreIcon.png"
-                          alt=""
-                        />
-                      </button>
-                      <button
-                        class="control-btn delete"
-                        onclick="handlePopUp(true,0)"
-                      >
-                        <img src="../imgs/bin.png" alt="del" />
-                      </button>
-                    </div>
-                  </td>
-                </tr>-->
+
               </tbody>
             </table>
           </div>

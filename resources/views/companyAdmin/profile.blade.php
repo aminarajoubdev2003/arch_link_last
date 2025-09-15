@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
-    <link rel="stylesheet" href="../css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -1919,7 +1919,7 @@
           <div class="logo-holder">
             <img
               style="width: 30px; height: 30px"
-              src="../imgs/logo.png"
+              src="{{ asset('../imgs/logo.png') }}"
               alt=""
             />
             <h3 class="p-relative txt-c mt-0">ArchiLink</h3>
@@ -1928,7 +1928,7 @@
             <li>
               <a
                 class="d-flex align-center fs-14 c-black rad-6 p-10"
-                href="index.html"
+                href="{{ route('list-deliveries')}}"
               >
                 <i class="fa-regular fas fa-box"></i>
                 <span>Product</span>
@@ -1953,14 +1953,14 @@
               <div class="accordion-list" style="padding-left: 10px">
                 <a
                   class="d-flex align-center fs-14 c-black rad-6 p-10"
-                  href="shop.html"
+                  href="{{ route('shop-products')}}"
                 >
                   <i class="fas fa-store"></i>
                   <span>Shop</span>
                 </a>
                 <a
                   class="d-flex align-center fs-14 c-black rad-6 p-10"
-                  href="customize.html"
+                  href="{{ route('custom-products')}}"
                 >
                   <i class="fas fa-sliders-h"></i>
                   <span>Customize</span>
@@ -1970,7 +1970,7 @@
             <li>
               <a
                 class="d-flex align-center fs-14 c-black rad-6 p-10"
-                href="delivery.html"
+                href="{{ route('list-deliveries')}}"
               >
                 <i class="fa-solid fas fa-truck"></i>
                 <span>Delivery</span>
@@ -1992,16 +1992,16 @@
                 </div>
               </div>
               <div class="accordion-list" style="padding-left: 10px">
-                <a
+                <!--<a
                   class="d-flex align-center fs-14 c-black rad-6 p-10"
                   href="productTrash.html"
                 >
                   <i class="fas fa-box-open"></i>
                   <span>Product Trash</span>
-                </a>
+                </a>-->
                 <a
                   class="d-flex align-center fs-14 c-black rad-6 p-10"
-                  href="deliveryTrash.html"
+                  href="{{ route('deleted_delivery')}}"
                 >
                   <i class="fas fa-dumpster"></i>
                   <span>Delivery Trash</span>
@@ -2023,6 +2023,7 @@
               width: 100%;
             "
             class="logout"
+            onclick="window.location.href='{{ route('logout') }}'"
           >
             <i class="log-out-icon fas fa-power-off"></i>
             <span>Logout</span>

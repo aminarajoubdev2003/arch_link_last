@@ -103,7 +103,7 @@
           <h1>{{ $errors }}</h1>
           <p>An unexpected error occurred. Please try again in a few moments.</p>
         </div>
-       <!-- <button class="btn">Retry</button>-->
+        <!--<button class="btn">Retry</button>-->
       </div>
     </div>
   </body>

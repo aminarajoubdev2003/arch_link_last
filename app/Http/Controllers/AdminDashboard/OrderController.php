@@ -23,7 +23,7 @@ class OrderController extends Controller
     $order_customiz->status = 'accept';
     $order_customiz->save();
 
-    $client->account += 250;
+    $client->account += 1000;
     $client->save();
 
     return $this->index();

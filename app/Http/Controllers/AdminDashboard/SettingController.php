@@ -22,18 +22,19 @@ class SettingController extends Controller
     public function store(Request $request)
     {
     $messages = [
-        'day.required' => 'حقل اليوم مطلوب.',
-        'day.string' => 'يجب أن يكون اليوم نصاً.',
-        'day.unique' => 'هذا اليوم مسجل مسبقاً.',
-        'day.min' => 'يجب ألا يقل اليوم عن 3 أحرف.',
-        'day.max' => 'يجب ألا يزيد اليوم عن 20 حرفاً.',
-        'day.regex' => 'اليوم يجب أن يحتوي على حروف فقط.',
-        'from.required' => 'حقل البداية مطلوب.',
-        'from.date_format' => 'تنسيق الوقت في حقل البداية غير صحيح. يجب أن يكون H:i.',
-        'to.required' => 'حقل النهاية مطلوب.',
-        'to.date_format' => 'تنسيق الوقت في حقل النهاية غير صحيح. يجب أن يكون H:i.',
-        'to.after' => 'وقت النهاية يجب أن يكون بعد وقت البداية.',
-    ];
+    'day.required'   => 'The day field is required.',
+    'day.string'     => 'The day must be a string.',
+    'day.unique'     => 'This day is already registered.',
+    'day.min'        => 'The day must be at least 3 characters.',
+    'day.max'        => 'The day must not be greater than 20 characters.',
+    'day.regex'      => 'The day must contain letters only.',
+    'from.required'  => 'The start time field is required.',
+    'from.date_format' => 'The start time format is invalid. It must be H:i.',
+    'to.required'    => 'The end time field is required.',
+    'to.date_format' => 'The end time format is invalid. It must be H:i.',
+    'to.after'       => 'The end time must be after the start time.',
+];
+
 
     $validate = Validator::make($request->all(), [
         'day' => 'required|string|unique:settings,day|min:3|max:20|regex:/^[A-Za-z]+$/',
@@ -64,36 +65,6 @@ class SettingController extends Controller
     }
 }
 
-    /*public function store( Request $request ){
-        //echo 'klkl';
-        $validate = Validator::make($request->all(), [
-            "day" => "required|string|unique:settings,day|min:3|max:20|regex:/^[A-Za-z]+$/",
-            "from" => "required|date_format:H:i",
-            "to" => "required|date_format:H:i|after:from"
-        ]);
-
-        if($validate->fails()) {
-            $errors = $validate->errors();
-            return view('admin.error',compact('errors'));
-        }
-
-    try {
-        $uuid = Str::uuid();
-
-        $setting = Setting::create([
-            'uuid' => $uuid,
-            'day' => $request->day,
-            'from' => $request->from,
-            'to' => $request->to
-        ]);
-        $times = Setting::all();
-        return view('admin.settings',compact('times'));
-
-    } catch (\Exception $ex) {
-        return view('admin.settings');
-
-    }
-    }*/
     public function edit( $id ){
         $time = Setting::findOrFail($id);
         return view('admin.editWorkTime',compact('time'));
@@ -101,9 +72,9 @@ class SettingController extends Controller
 
     public function update( Request $request , $id){
         $validate = Validator::make($request->all(), [
-        "day" => "string|unique:settings,day|min:3|max:20|regex:/^[A-Za-z]+$/",
-        "from" => "date_format:H:i:s",
-        "to" => "date_format:H:i:s|after:from"
+        "day" => "string|min:3|max:20|regex:/^[A-Za-z]+$/",
+        "from" => "date_format:H:i",
+        "to" => "date_format:H:i|after:from"
         ]);
 
 
@@ -113,6 +84,15 @@ class SettingController extends Controller
         }
 
         try{
+
+
+        if (strlen($request->from) === 5) { //  HH:MM
+            $request->from .= ':00';
+        }
+
+        if (strlen($request->to) === 5) {
+            $request->to .= ':00';
+        }
         $time = Setting::findOrFail($id);
         $time->day = $request->day;
         $time->from = $request->from;
@@ -120,6 +100,7 @@ class SettingController extends Controller
         $time->save();
 
         return $this->index();
+
 
         }catch (\Exception $ex) {
         return view('admin.settings');

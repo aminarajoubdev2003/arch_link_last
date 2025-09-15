@@ -2023,6 +2023,7 @@
               width: 100%;
             "
             class="logout"
+            onclick="window.location.href='{{ route('logout') }}'"
           >
             <i class="log-out-icon fas fa-power-off"></i>
             <span>Logout</span>
@@ -2041,8 +2042,8 @@
             >
               <i class="fa-regular fa-bell fa-lg"></i>
             </span>
-            <a href="profile.html">
-              <img src="../imgs/avatar.png" alt="" />
+            <a href="{{ route('adminprofile')}}">
+              <img src="{{ asset('../imgs/avatar.png') }}" alt="" />
             </a>
           </div>
         </div>
@@ -2128,7 +2129,7 @@
                   <td data-label="Email">{{ $delivery->email }}</td>
                   <td data-label="Phone Number">{{ $delivery->phone_number }}</td>
                   <td data-label="Area">{{ $delivery->area->city->city_name }} - {{ $delivery->area->area_name }}</td>
-                  <td data-label="Status">{{ $delivery->busy }}
+                  <td data-label="Status">{{ $delivery->busy == 1 ? 'busy' : 'free' }}
                 </td>
                   <td data-label="Action">
                     <div class="btns">
@@ -2215,7 +2216,7 @@
                 <!--<button class="confirm popup-btn">Yes</button>-->
                 <form id="deleteForm" action="" method="POST" style="display:inline;">
                 @csrf
-                @method('DELETE')
+                @method('GET')
                 <button type="submit" class="confirm popup-btn">Yes</button>
                 </form>
                 <button class="cancel popup-btn" onclick="handlePopUp(false,0)">

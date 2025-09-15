@@ -33,7 +33,7 @@ class ClientController extends Controller
         $client->account = $request->account;
         $client->save();
 
-        $this->index();
+        return $this->index();
     }
     }
 

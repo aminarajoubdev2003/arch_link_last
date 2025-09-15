@@ -112,8 +112,9 @@ Route::controller(DeliveryController::class)->group(function (){
     Route::post('/store/delivery','store')->name('store-delivery');
     Route::get('/delivery/edit/{id}','edit')->name('edit-delivery');
     Route::post('/delivery/update/{id}','update')->name('update-delivery');
-    Route::delete('/deliveries/{id}',  'delete')->name('delete-delivery');
+    Route::get('/deliveries/{id}',  'delete')->name('delete-delivery');
     Route::get('/delivery/delete','deleted_delivery')->name('deleted_delivery');
+    Route::get('/deliveries/restore/{id}',  'restore')->name('delivery-restore');
 });
 
 Route::controller(ProductController::class)->group(function (){
@@ -140,8 +141,6 @@ Route::controller(Order_customizeController::class)->group(function (){
 
     Route::get('/customize/products','index')->name('custom-products');
     Route::post('/append/{id}','append')->name('append-customize');
-    //Route::get('/gallery/product','gallary')->name('gallary-product');
-    //Route::post('/store/product','store')->name('store-product');
-    //Route::get('/delivery/edit/{id}','edit')->name('edit-delivery');
-    //Route::post('/delivery/update/{id}','update')->name('update-delivery');
+    Route::get('/choose/{id}', 'choose')->name('shop-delivery');
+    Route::post('/set/{id}', 'set')->name('set-delivery');
 });

@@ -1864,7 +1864,7 @@
         <div class="logo-holder">
           <img
             style="width: 30px; height: 30px"
-            src="../imgs/logo.png"
+            src="{{ asset('../imgs/logo.png')}}"
             alt=""
           />
           <h3 class="p-relative txt-c mt-0">ArchiLink</h3>
@@ -1882,7 +1882,7 @@
           <li>
             <a
               class="d-flex align-center fs-14 c-black rad-6 p-10"
-              href="area.html"
+              href="{{ route('list-areas')}}"
             >
               <i class="fa-solid fas fa-chart-area fa-fw"></i>
               <span>Area</span>
@@ -1891,7 +1891,7 @@
           <li>
             <a
               class="d-flex align-center fs-14 c-black rad-6 p-10"
-              href="settings.html"
+              href="{{ route('list-settings')}}"
             >
               <i class="fa-solid fa-gear fa-fw"></i>
               <span>Settings</span>
@@ -1900,7 +1900,7 @@
           <li>
             <a
               class="d-flex align-center fs-14 c-black rad-6 p-10"
-              href="client.html"
+              href="{{route('list-clients')}}"
             >
               <i class="fa-regular fa-user fa-fw"></i>
               <span>Client</span>
@@ -1909,7 +1909,7 @@
           <li>
             <a
               class="d-flex align-center fs-14 c-black rad-6 p-10"
-              href="order.html"
+              href="{{ route('list-orders')}}"
             >
               <i class="fa-solid fas fa-shopping-basket fa-fw"></i>
               <span>Order</span>
@@ -1933,21 +1933,21 @@
             <div class="accordion-list" style="padding-left: 10px">
               <a
                 class="d-flex align-center fs-14 c-black rad-6 p-10"
-                href="workTimesTrash.html"
+                href="{{ route('worktimes-deleted')}}"
               >
                 <i class="far fa-clock fa-fw"></i>
                 <span>WorkTimes Trash</span>
               </a>
               <a
                 class="d-flex align-center fs-14 c-black rad-6 p-10"
-                href="cityTrash.html"
+                href="{{ route('cities-deleted')}}"
               >
                 <i class="fa-regular fas fa-city"></i>
                 <span>Cities Trash</span>
               </a>
               <a
                 class="d-flex align-center fs-14 c-black rad-6 p-10"
-                href="areaTrash.html"
+                href="{{ route('areas-deleted')}}"
               >
                 <i class="fa-solid fas fa-chart-area fa-fw"></i>
                 <span>Areas Trash</span>
@@ -1968,6 +1968,7 @@
             width: 75%;
           "
           class="logout"
+          onclick="window.location.href='{{ route('logout') }}'"
         >
           <i class="log-out-icon fas fa-power-off"></i>
           <span>Logout</span>
@@ -1985,8 +1986,8 @@
             >
               <i class="fa-regular fa-bell fa-lg"></i>
             </span>
-            <a href="profile.html">
-              <img src="../imgs/avatar.png" alt="" />
+            <a href="{{ route('adminprofile')}}">
+              <img src="{{ asset('../imgs/avatar.png')}}" alt="" />
             </a>
           </div>
         </div>
@@ -2000,9 +2001,9 @@
               class="overview bg-white rad-10 d-flex align-center"
             >
               <div class="avatar-box txt-c p-20">
-                <img class="rad-half mb-10" src="../imgs/avatar.png" alt="" />
-                <h3 class="m-0">Osama Elzero</h3>
-                <p class="c-grey mt-10">Level 20</p>
+                <img class="rad-half mb-10" src="{{ asset('../imgs/avatar.png')}}" alt="" />
+                <h3 class="m-0">Admin Station</h3>
+                <p class="c-grey mt-10"></p>
                 <div class="level rad-6 bg-eee p-relative">
                   <span style="width: 70%"></span>
                 </div>
@@ -2021,7 +2022,7 @@
                   <h4 class="c-grey fs-15 m-0 w-full">General Information</h4>
                   <div class="fs-14">
                     <span class="c-grey">Full Name</span>
-                    <span>Jane Doe</span>
+                    <span>Amina Rajoub</span>
                   </div>
                   <div class="fs-14">
                     <span class="c-grey">Gender:</span>
@@ -2042,11 +2043,11 @@
                   <h4 class="c-grey w-full fs-15 m-0">Personal Information</h4>
                   <div class="fs-14">
                     <span class="c-grey">Email:</span>
-                    <span>Jane@gmail.com</span>
+                    <span>amina.rajoub03@gmail.com</span>
                   </div>
                   <div class="fs-14">
                     <span class="c-grey">Phone:</span>
-                    <span>019123456789</span>
+                    <span>0191234569</span>
                   </div>
                 </div>
               </div>
